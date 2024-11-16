@@ -1,0 +1,42 @@
+
+body{
+    background-color: black;
+}
+
+h1{
+    text-align: center;
+    font-family: Impact;
+    font-size: 3em;
+    font-weight: normal;
+    background-color: black;
+    color: white;
+    margin: 0;
+    padding-top: 1em;
+    text-shadow: 1px 1px 2px lightskyblue, 0 0 25px blue, 0 0 5px darkblue;
+}
+
+h2{
+    text-align: center;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1em;
+    font-weight: normal;
+}
+
+h3{
+    text-align: center;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.8em;
+    font-weight: normal;
+}
+
+h4{
+    text-align: center;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1em;
+    font-weight: 200;
+    font-style: italic;
+    padding-bottom: 1em;
+}
