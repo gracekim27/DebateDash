@@ -1,4 +1,6 @@
 let firstBar;
+let debaterProfile;
+let affNegSplits;
 
 let promises = [
     d3.csv("data/CS171_TournamentData.csv"),
@@ -21,8 +23,12 @@ function initMainPage(dataArray) {
 
     // Corrected instantiation to match the class name `FirstBar`
     firstBar = new FirstBar('firstBar', tournamentData);
+    debaterProfile = new DebaterProfile('debaterProfile', tournamentData);
+    affNegSplits = new AffNegSplits("affNegSplits", winData);
 }
 
 function categoryChange() {
     firstBar.wrangleData();
+    debaterProfile.wrangleData();
+    affNegSplits.wrangleData();
 }

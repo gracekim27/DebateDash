@@ -45,3 +45,12 @@ h4{
 #firstBar{
     text-align: center;
 }
+
+#debaterProfile{
+    text-align: center;
+}
+
+#affNegSplits{
+    text-align: center;
+    overflow: hidden;
+}

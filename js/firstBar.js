@@ -45,6 +45,9 @@ class FirstBar {
     wrangleData() {
         let vis = this;
 
+        // Filter data to only include entries where Tournament is "Berk"
+        let filteredData = vis.data.filter(d => d.Tournament === "Berk");
+
         // Define filter conditions for each group and labels for the bar chart
         let groups = [
             { label: 'Private Girls', filter: d => d.Gender === 'girl' && d['Private/Public'] === 'Private' },
@@ -55,16 +58,16 @@ class FirstBar {
 
         // Initialize an array to store average ELO data for the bar chart
         vis.averageELOData = groups.map(group => {
-            let filteredData = vis.data.filter(group.filter);
-            let averageELO = vis.calculateAverageELO(filteredData);
+            let groupData = filteredData.filter(group.filter);
+            let averageELO = vis.calculateAverageELO(groupData);
             return { label: group.label, averageELO: averageELO || 0 }; // Use 0 if no data is available
         });
 
         console.log("Average ELO data for each group:", vis.averageELOData);
 
-
         vis.updateVis();
     }
+
 
     calculateAverageELO(dataGroup) {
         if (dataGroup.length > 0) {
