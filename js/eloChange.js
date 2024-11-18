@@ -23,16 +23,6 @@ class EloChange {
             .append("g")
             .attr("transform", `translate(${vis.margin.left},${vis.margin.top})`);
 
-        // Plot title
-        vis.svg.append("text")
-            .attr("class", "plot-title")
-            .attr("x", vis.width / 2)
-            .attr("y", -20)
-            .attr("text-anchor", "middle")
-            .style("font-size", "18px")
-            .style("fill", "white")
-            .style("font-family", "Arial")
-            .text("ELO Ratings Across Tournaments for Each Competitor");
 
         // Create a group for dynamic content (line chart)
         vis.chartGroup = vis.svg.append("g");
@@ -146,6 +136,7 @@ class EloChange {
             .attr("text-anchor", "middle")
             .style("font-size", "14px")
             .style("fill", "white")
+            .style("font-family", "Arial")
             .text("Tournaments");
 
         // Add y-axis
@@ -166,6 +157,7 @@ class EloChange {
             .attr("transform", "rotate(-90)")
             .attr("text-anchor", "middle")
             .style("font-size", "14px")
+            .style("font-family", "Arial")
             .style("fill", "white")
             .text("ELO Rating");
     }
