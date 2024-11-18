@@ -71,8 +71,7 @@ h5{
     text-align: center;
 }
 
-#visualization{
-    max-width: fit-content;
+.vis{
     margin-left: auto;
     margin-right: auto;
 }
