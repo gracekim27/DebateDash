@@ -1,5 +1,4 @@
 class WinsELO {
-
     constructor(parentElement, data) {
         this.parentElement = parentElement;
         this.data = data;
@@ -13,8 +12,8 @@ class WinsELO {
 
         // Define margins and dimensions based on the parent element's size
         vis.margin = {top: 60, right: 20, bottom: 100, left: 50};
-        vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 1.5) - vis.margin.left - vis.margin.right;
-        vis.height = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 1.5) - vis.margin.top - vis.margin.bottom;
+        vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 2) - vis.margin.left - vis.margin.right;
+        vis.height = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 2) - vis.margin.top - vis.margin.bottom;
 
         // SVG drawing area
         vis.svg = d3.select(`#${vis.parentElement}`)
@@ -24,16 +23,6 @@ class WinsELO {
             .append("g")
             .attr("transform", `translate(${vis.margin.left},${vis.margin.top})`);
 
-        // Plot Title
-        vis.svg.append("text")
-            .attr("class", "plot-title")
-            .attr("x", vis.width / 2)
-            .attr("y", -vis.margin.top / 2 + 20)
-            .attr("text-anchor", "middle")
-            .style("font-size", "18px")
-            .style("fill", "white")
-            .style("font-family", "Arial")
-            .text("Competitor ELO at Berk vs. Average Wins");
 
         // Create a group element with margins applied
         vis.chartGroup = vis.svg.append("g")
@@ -46,7 +35,7 @@ class WinsELO {
         let vis = this;
 
         // Group data by competitor and calculate average wins and ELO at Berk
-        let groupedData = d3.groups(vis.data, d => d.Competitor);
+        let groupedData = d3.groups(vis.data, d => d.Code);
 
         vis.competitorData = groupedData.map(([competitor, records]) => {
             // Calculate the average wins across all tournaments
@@ -55,8 +44,9 @@ class WinsELO {
             // Find the ELO score specifically at the Berk tournament
             let berkRecord = records.find(d => d.Tournament === "Berk");
             let berkELO = berkRecord ? +berkRecord.Elo : null;
+            let gender = berkRecord ? berkRecord.Gender : null;
 
-            return { competitor, avgWins, berkELO };
+            return { competitor, avgWins, berkELO, gender };
         }).filter(d => d.berkELO !== null); // Filter out competitors who didn't attend Berk
 
         console.log("Competitor Data:", vis.competitorData);
@@ -88,19 +78,8 @@ class WinsELO {
             .attr("cx", d => vis.xScale(d.berkELO))
             .attr("cy", d => vis.yScale(d.avgWins))
             .attr("r", 5)
-            .attr("fill", "steelblue")
-            .attr("opacity", 0.7);
-
-        // Add labels to the points for each competitor
-        vis.chartGroup.selectAll(".label")
-            .data(vis.competitorData)
-            .enter()
-            .append("text")
-            .attr("x", d => vis.xScale(d.berkELO) + 5)
-            .attr("y", d => vis.yScale(d.avgWins) - 5)
-            .attr("font-size", "10px")
-            .style("fill", "white")
-            .text(d => d.competitor);
+            .attr("fill", d => d.gender === "girl" ? "pink" : "lightblue") // Set color based on gender
+            .attr("opacity", 0.5);
 
         // Add x-axis with styling
         vis.chartGroup.append("g")
@@ -121,13 +100,15 @@ class WinsELO {
             .attr("text-anchor", "middle")
             .style("font-size", "14px")
             .style("fill", "white")
-            .text("ELO at Berk Tournament");
+            .style("font-family", "Arial")
+            .text("ELO at Season End");
 
         // Add y-axis with styling
         vis.chartGroup.append("g")
             .attr("class", "y-axis")
             .call(d3.axisLeft(vis.yScale))
             .selectAll("text")
+            .style("font-family", "Arial")
             .style("fill", "white");
 
         vis.chartGroup.select(".y-axis")
@@ -142,6 +123,7 @@ class WinsELO {
             .attr("text-anchor", "middle")
             .style("font-size", "14px")
             .style("fill", "white")
+            .style("font-family", "Arial")
             .text("Average Wins Across Tournaments");
     }
 }
