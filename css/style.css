@@ -38,9 +38,16 @@ h4{
     font-size: 1em;
     font-weight: 200;
     font-style: italic;
-    padding-bottom: 1em;
 }
 
+h5{
+    text-align: center;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1em;
+    font-weight: 200;
+    padding-bottom: 1em;
+}
 
 #firstBar{
     text-align: center;
@@ -53,4 +60,9 @@ h4{
 #affNegSplits{
     text-align: center;
     overflow: hidden;
+}
+
+
+#winsELOs{
+    text-align: center;
 }
