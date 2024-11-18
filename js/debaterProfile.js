@@ -55,7 +55,7 @@ class DebaterProfile {
         // Display Average Wins
         vis.svg.append("text")
             .attr("x", 3 * vis.width / 4)
-            .attr("y", vis.height * 0.1)
+            .attr("y", vis.height * 0.1 + 20)
             .attr("text-anchor", "middle")
             .attr("font-size", "25px")
             .style("font-family", "Arial")
@@ -64,7 +64,7 @@ class DebaterProfile {
             .text(`${vis.avgWins.toFixed(1)}`);
         vis.svg.append("text")
             .attr("x", 3 * vis.width / 4)
-            .attr("y", vis.height * 0.2)
+            .attr("y", vis.height * 0.2 + 20)
             .attr("text-anchor", "middle")
             .attr("font-size", "15px")
             .style("font-family", "Arial")
@@ -75,7 +75,7 @@ class DebaterProfile {
         // Display Average ELO
         vis.svg.append("text")
             .attr("x", 3 * vis.width / 4)
-            .attr("y", vis.height * 0.4)
+            .attr("y", vis.height * 0.4 + 20)
             .attr("text-anchor", "middle")
             .attr("font-size", "25px")
             .style("font-family", "Arial")
@@ -83,8 +83,8 @@ class DebaterProfile {
             .style("font-weight", "1000")
             .text(`${vis.avgELO.toFixed(1)}`);
         vis.svg.append("text")
-            .attr("x", 3 * vis.width / 4)
-            .attr("y", vis.height * 0.5)
+            .attr("x", 3 * vis.width / 4 )
+            .attr("y", vis.height * 0.5 + 20)
             .attr("text-anchor", "middle")
             .attr("font-size", "15px")
             .style("font-family", "Arial")
@@ -92,65 +92,14 @@ class DebaterProfile {
             .style("fill", "white")
             .text(`Average ELO`);
 
-        // Gender Display
-        // Head
-        vis.svg.append("circle")
-            .attr("cx", vis.width / 4)
-            .attr("cy", vis.height * 0.27)
-            .attr("r", 40)
-            .attr("fill", "lightskyblue");
+        vis.svg.append("image")
+            .attr("xlink:href", "/img/male.png")
+            .attr("x", vis.width / 4 - 100)
+            .attr("y", vis.height * 0.1)
+            .attr("width", 200)
+            .attr("height", 300);
 
-// Body (Rounded Rectangle)
-        vis.svg.append("rect")
-            .attr("x", vis.width / 4 - 20)
-            .attr("y", vis.height * 0.35)
-            .attr("width", 40)
-            .attr("height", 60)
-            .attr("rx", 10) // Rounded corners
-            .attr("ry", 10)
-            .attr("fill", "lightskyblue");
 
-// Left Arm (Rounded Rectangle angled upwards)
-        vis.svg.append("rect")
-            .attr("x", vis.width / 4 - 35)
-            .attr("y", vis.height * 0.38)
-            .attr("width", 50)
-            .attr("height", 15)
-            .attr("rx", 10) // Rounded corners
-            .attr("ry", 10)
-            .attr("transform", `rotate(-45 ${vis.width / 4 - 35 + 15}, ${vis.height * 0.42 + 5})`)
-            .attr("fill", "lightskyblue");
-
-// Right Arm (Rounded Rectangle angled upwards)
-        vis.svg.append("rect")
-            .attr("x", vis.width / 4 - 13)
-            .attr("y", vis.height * 0.38)
-            .attr("width", 50)
-            .attr("height", 15)
-            .attr("rx", 10) // Rounded corners
-            .attr("ry", 10)
-            .attr("transform", `rotate(45 ${vis.width / 4 + 5 + 15}, ${vis.height * 0.42 + 5})`)
-            .attr("fill", "lightskyblue");
-
-// Left Leg (Rounded Rectangle angled downwards)
-        vis.svg.append("rect")
-            .attr("x", vis.width / 4 - 20)
-            .attr("y", vis.height * 0.45)
-            .attr("width", 15)
-            .attr("height", 60)
-            .attr("rx", 5) // Rounded corners
-            .attr("ry", 5)
-            .attr("fill", "lightskyblue");
-
-// Right Leg (Rounded Rectangle angled downwards)
-        vis.svg.append("rect")
-            .attr("x", vis.width / 4 + 5)
-            .attr("y", vis.height * 0.45)
-            .attr("width", 15)
-            .attr("height", 60)
-            .attr("rx", 5) // Rounded corners
-            .attr("ry", 5)
-            .attr("fill", "lightskyblue");
 
 // Gender Label
         vis.svg.append("text")
