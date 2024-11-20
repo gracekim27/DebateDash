@@ -49,6 +49,15 @@ h5{
     padding-bottom: 1em;
 }
 
+h6{
+    color: white;
+    font-weight: bold;
+}
+
+p{
+    color: white;
+}
+
 #firstBar{
     text-align: center;
 }
