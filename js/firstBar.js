@@ -89,9 +89,9 @@ class FirstBar {
             .range([0, vis.width])
             .padding(0.1);
 
-        // yScale starts from 1700 to zoom in since values are pretty close (around 1700-1900)
+        // yScale starts from 0 (around 0-1900)
         vis.yScale = d3.scaleLinear()
-            .domain([1700, d3.max(vis.averageELOData, d => d.averageELO)])
+            .domain([0, d3.max(vis.averageELOData, d => d.averageELO)])
             .range([vis.height, 0]);
 
         // Draw bars for each group with color based on gender
