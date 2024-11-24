@@ -29,15 +29,29 @@
             Why debate?
         </h6>
         <p>
-
+            Debate is more than just an academic competition; it fosters critical thinking, public speaking, and persuasive argumentation. However, disparities in resources, judging biases, and access to opportunities often impact competitive outcomes. By visualizing tournament data, we aim to shed light on these issues and highlight areas for improvement.
         </p>
 
-        <h6>
-            What data?
-        </h6>
+        <h6>What Data?</h6>
         <p>
-            Lincoln Douglas Debate, 2023-2024 Competitive season yappapapapa dfdsfsdf yappapapapa dfdsfsdfyappapapapa sdf  sdf dfdsfsdf
+            Our analysis focuses on Lincoln-Douglas Debate results from the 2023-2024 competitive season. We aggregate data from both preliminary and elimination rounds of triple-octa final bid tournaments. These tournaments represent the largest and most competitive events, ensuring consistency in difficulty levels across the dataset.
         </p>
+        <p>
+            To analyze disparities, we use the Python library <code>gender-guesser</code> to infer participant genders based on first names. We include only those predictions with high certainty to ensure accuracy. Additionally, we calculate Elo scores for debaters using a base Elo of 400, round multipliers for elimination rounds to account for their increasing importance, and a learning constant of K = 100. The round multipliers are:
+        </p>
+        <ul>
+            <li>Prelim: 1.0</li>
+            <li>Quads: 1.1</li>
+            <li>Trips: 1.2</li>
+            <li>Dubs: 1.4</li>
+            <li>Octos: 1.6</li>
+            <li>Quarters: 1.8</li>
+            <li>Semis: 2.0</li>
+        </ul>
+        <p>
+            These adjustments ensure that our analysis accurately reflects the significance of performance in each stage of competition.
+        </p>
+
     </div>
     <div class="col-2"></div>
 </div>
