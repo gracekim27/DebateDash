@@ -11,9 +11,9 @@ class FirstBar {
     initVis() {
         let vis = this;
 
-        // Define margins and dimensions based on the parent element's size
-        vis.margin = {top: 60, right: 20, bottom: 100, left: 50}; // Increased top margin for title
-        vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width/3) - vis.margin.left - vis.margin.right;
+        // Define margins and dimensions
+        vis.margin = { top: 60, right: 150, bottom: 100, left: 50 }; // Increased right margin for summary
+        vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 2) - vis.margin.left - vis.margin.right;
         vis.height = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 3) - vis.margin.top - vis.margin.bottom;
 
         // SVG drawing area
@@ -35,12 +35,38 @@ class FirstBar {
             .style("font-family", "Arial")
             .text("Average ELO by Group and Gender");
 
-        // Create a group element with margins applied
-        vis.chartGroup = vis.svg.append("g")
-            .attr("transform", `translate(0, ${20})`);
+        // Tooltip (create it once, outside the SVG)
+        vis.tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0)
+            .style("position", "absolute")
+            .style("background", "#333")
+            .style("color", "#fff")
+            .style("padding", "5px")
+            .style("border-radius", "5px")
+            .style("pointer-events", "none");
+
+        // Create summary group for the right-hand summary box
+        vis.summaryGroup = vis.svg.append("g")
+            .attr("class", "summary-group")
+            .attr("transform", `translate(${vis.width + 20}, 0)`); // Position to the right of the chart
+
+        // Add the title to the summary group
+        vis.summaryGroup.append("text")
+            .attr("class", "summary-title")
+            .attr("x", 0)
+            .attr("y", 0)
+            .text("Other averages")
+            .style("fill", "white")
+            .style("font-size", "14px")
+            .style("font-weight", "bold");
 
         vis.wrangleData();
     }
+
+
+
+
 
     wrangleData() {
         let vis = this;
@@ -63,11 +89,17 @@ class FirstBar {
             return { label: group.label, averageELO: averageELO || 0 }; // Use 0 if no data is available
         });
 
-        console.log("Average ELO data for each group:", vis.averageELOData);
+        // Calculate overall averages for summary box
+        vis.overallAverages = {
+            private: vis.calculateAverageELO(filteredData.filter(d => d['Private/Public'] === 'Private')),
+            public: vis.calculateAverageELO(filteredData.filter(d => d['Private/Public'] === 'Public')),
+            boys: vis.calculateAverageELO(filteredData.filter(d => d.Gender === 'boy')),
+            girls: vis.calculateAverageELO(filteredData.filter(d => d.Gender === 'girl')),
+        };
 
         vis.updateVis();
+        vis.updateSummaryBox();
     }
-
 
     calculateAverageELO(dataGroup) {
         if (dataGroup.length > 0) {
@@ -80,22 +112,21 @@ class FirstBar {
     updateVis() {
         let vis = this;
 
-        // Clear previous elements
-        vis.chartGroup.selectAll("*").remove();
+        // Clear only the bars, not the axes or summary group
+        vis.svg.selectAll(".bar").remove();
 
-        // Set up x and y scales based on average ELO data
+        // Set up x and y scales
         vis.xScale = d3.scaleBand()
             .domain(vis.averageELOData.map(d => d.label))
             .range([0, vis.width])
             .padding(0.1);
 
-        // yScale starts from 0 (around 0-1900)
         vis.yScale = d3.scaleLinear()
             .domain([0, d3.max(vis.averageELOData, d => d.averageELO)])
             .range([vis.height, 0]);
 
-        // Draw bars for each group with color based on gender
-        vis.chartGroup.selectAll(".bar")
+        // Draw bars
+        vis.svg.selectAll(".bar")
             .data(vis.averageELOData)
             .enter()
             .append("rect")
@@ -104,30 +135,88 @@ class FirstBar {
             .attr("y", d => vis.yScale(d.averageELO))
             .attr("width", vis.xScale.bandwidth())
             .attr("height", d => vis.height - vis.yScale(d.averageELO))
-            .attr("fill", d => d.label.includes("Girls") ? "lightpink" : "lightskyblue");
+            .attr("fill", d => d.label.includes("Girls") ? "lightpink" : "lightskyblue")
+            .on("mouseover", function(event, d) {
+                vis.tooltip.transition().duration(200).style("opacity", 1);
+                vis.tooltip.html(`Group: ${d.label}<br>Average ELO: ${d.averageELO.toFixed(2)}`)
+                    .style("left", `${event.pageX + 10}px`)
+                    .style("top", `${event.pageY - 28}px`);
+            })
+            .on("mouseout", function() {
+                vis.tooltip.transition().duration(200).style("opacity", 0);
+            });
 
-        // Add x-axis and style text and lines to white
-        vis.chartGroup.append("g")
-            .attr("class", "x-axis")
-            .attr("transform", `translate(0,${vis.height})`)
-            .call(d3.axisBottom(vis.xScale))
-            .selectAll("text")
-            .style("fill", "white");
+        // Update x-axis
+        if (vis.svg.selectAll(".x-axis").empty()) {
+            vis.svg.append("g")
+                .attr("class", "x-axis")
+                .attr("transform", `translate(0,${vis.height})`)
+                .call(d3.axisBottom(vis.xScale))
+                .selectAll("text")
+                .style("fill", "white");
 
-        vis.chartGroup.select(".x-axis")
-            .selectAll("path, line")
-            .style("stroke", "white");
+            vis.svg.select(".x-axis")
+                .selectAll("path, line")
+                .style("stroke", "white");
+        } else {
+            vis.svg.select(".x-axis").call(d3.axisBottom(vis.xScale));
+        }
 
-        // Add y-axis and style text and lines to white
-        vis.chartGroup.append("g")
-            .attr("class", "y-axis")
-            .call(d3.axisLeft(vis.yScale))
-            .selectAll("text")
-            .style("fill", "white");
+        // Update y-axis
+        if (vis.svg.selectAll(".y-axis").empty()) {
+            vis.svg.append("g")
+                .attr("class", "y-axis")
+                .call(d3.axisLeft(vis.yScale))
+                .selectAll("text")
+                .style("fill", "white");
 
-        vis.chartGroup.select(".y-axis")
-            .selectAll("path, line")
-            .style("stroke", "white");
+            vis.svg.select(".y-axis")
+                .selectAll("path, line")
+                .style("stroke", "white");
+        } else {
+            vis.svg.select(".y-axis").call(d3.axisLeft(vis.yScale));
+        }
     }
 
+
+
+    updateSummaryBox() {
+        let vis = this;
+
+        // Clear previous text
+        vis.summaryGroup.selectAll(".summary-text").remove();
+
+        // Add text elements for overall averages
+        vis.summaryGroup.append("text")
+            .attr("class", "summary-text")
+            .attr("x", 0)
+            .attr("y", 20)
+            .text(`All Private: ${vis.overallAverages.private?.toFixed(2) || "N/A"}`)
+            .style("fill", "white")
+            .style("font-size", "12px");
+
+        vis.summaryGroup.append("text")
+            .attr("class", "summary-text")
+            .attr("x", 0)
+            .attr("y", 40)
+            .text(`All Public: ${vis.overallAverages.public?.toFixed(2) || "N/A"}`)
+            .style("fill", "white")
+            .style("font-size", "12px");
+
+        vis.summaryGroup.append("text")
+            .attr("class", "summary-text")
+            .attr("x", 0)
+            .attr("y", 60)
+            .text(`All Boys: ${vis.overallAverages.boys?.toFixed(2) || "N/A"}`)
+            .style("fill", "white")
+            .style("font-size", "12px");
+
+        vis.summaryGroup.append("text")
+            .attr("class", "summary-text")
+            .attr("x", 0)
+            .attr("y", 80)
+            .text(`All Girls: ${vis.overallAverages.girls?.toFixed(2) || "N/A"}`)
+            .style("fill", "white")
+            .style("font-size", "12px");
+    }
 }
