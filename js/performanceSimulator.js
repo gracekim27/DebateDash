@@ -24,6 +24,8 @@ class PerformanceSimulator {
             .append("g")
             .attr("transform", `translate(${vis.margin.left},${vis.margin.top})`);
 
+        vis.chartGroup = vis.svg.append("g")
+            .attr("transform", `translate(${vis.margin.left},${vis.margin.top})`);
 
         // Wrangle data to calculate required statistics
         vis.wrangleData();
@@ -32,18 +34,7 @@ class PerformanceSimulator {
     wrangleData() {
         let vis = this;
 
-        let filteredData = vis.data.filter(d => d.Tournament === "Berk");
-
-        // Calculate total boys and girls within the filtered data
-        let boysData = filteredData.filter(d => d.Gender === "boy");
-        let girlsData = filteredData.filter(d => d.Gender === "girl");
-
-        vis.totalBoys = boysData.length;
-        vis.totalGirls = girlsData.length;
-
-        // Calculate average wins and average ELO for the filtered data
-        vis.avgWins = d3.mean(filteredData, d => +d.Wins);
-        vis.avgELO = d3.mean(filteredData, d => +d.Elo);
+        vis.processedData = {"win": .5, "lose": .5}
 
         vis.updateVis();
     }
