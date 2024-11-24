@@ -49,119 +49,76 @@ class PerformanceSimulator {
     }
 
     updateVis() {
+
         let vis = this;
 
+        // Clear previous dynamic content before re-rendering
+        vis.chartGroup.selectAll("*").remove();
 
-        // Display Average Wins
-        vis.svg.append("text")
-            .attr("x", 3 * vis.width / 4)
-            .attr("y", vis.height * 0.1)
-            .attr("text-anchor", "middle")
-            .attr("font-size", "25px")
-            .style("font-family", "Arial")
-            .style("fill", "white")
-            .style("font-weight", "1000")
-            .text(`${vis.avgWins.toFixed(1)}`);
-        vis.svg.append("text")
-            .attr("x", 3 * vis.width / 4)
-            .attr("y", vis.height * 0.2)
-            .attr("text-anchor", "middle")
-            .attr("font-size", "15px")
-            .style("font-family", "Arial")
-            .style("font-weight", "200")
-            .style("fill", "white")
-            .text(`Average Wins/Tournament`);
+        // Ensure radius is set before defining arc
+        vis.radius = 30;
 
-        // Display Average ELO
-        vis.svg.append("text")
-            .attr("x", 3 * vis.width / 4)
-            .attr("y", vis.height * 0.4)
-            .attr("text-anchor", "middle")
-            .attr("font-size", "25px")
-            .style("font-family", "Arial")
-            .style("fill", "white")
-            .style("font-weight", "1000")
-            .text(`${vis.avgELO.toFixed(1)}`);
-        vis.svg.append("text")
-            .attr("x", 3 * vis.width / 4)
-            .attr("y", vis.height * 0.5)
-            .attr("text-anchor", "middle")
-            .attr("font-size", "15px")
-            .style("font-family", "Arial")
-            .style("font-weight", "200")
-            .style("fill", "white")
-            .text(`Average ELO`);
+        // Define pie layout and arc generator
+        const pie = d3.pie()
+            .value(d => d.value)
+            .sort(null);
 
-        // Gender Display
-        // Head
-        vis.svg.append("circle")
-            .attr("cx", vis.width / 4)
-            .attr("cy", vis.height * 0.27)
-            .attr("r", 40)
-            .attr("fill", "lightskyblue");
+        const arc = d3.arc()
+            .innerRadius(0)
+            .outerRadius(vis.radius);
 
-// Body (Rounded Rectangle)
-        vis.svg.append("rect")
-            .attr("x", vis.width / 4 - 20)
-            .attr("y", vis.height * 0.35)
-            .attr("width", 40)
-            .attr("height", 60)
-            .attr("rx", 10) // Rounded corners
-            .attr("ry", 10)
-            .attr("fill", "lightskyblue");
+        // Define color scale
+        vis.color = d3.scaleOrdinal(["#40e36b", "#e34040"]); // Colors for Aff and Neg
 
-// Left Arm (Rounded Rectangle angled upwards)
-        vis.svg.append("rect")
-            .attr("x", vis.width / 4 - 35)
-            .attr("y", vis.height * 0.38)
-            .attr("width", 50)
-            .attr("height", 15)
-            .attr("rx", 10) // Rounded corners
-            .attr("ry", 10)
-            .attr("transform", `rotate(-45 ${vis.width / 4 - 35 + 15}, ${vis.height * 0.42 + 5})`)
-            .attr("fill", "lightskyblue");
+        // Custom layout based on specified column and row arrangement
+        const layout = [
+            ["Greenhill", "MidAmerica", "Bronx"],
+            ["Heart", "Apple Valley", "Glenbrooks"],
+            ["HarvWest", "Emory", "Harvard", "Berk"]
+        ];
 
-// Right Arm (Rounded Rectangle angled upwards)
-        vis.svg.append("rect")
-            .attr("x", vis.width / 4 - 13)
-            .attr("y", vis.height * 0.38)
-            .attr("width", 50)
-            .attr("height", 15)
-            .attr("rx", 10) // Rounded corners
-            .attr("ry", 10)
-            .attr("transform", `rotate(45 ${vis.width / 4 + 5 + 15}, ${vis.height * 0.42 + 5})`)
-            .attr("fill", "lightskyblue");
+        // Iterate over layout array to arrange pie charts
+        layout.forEach((column, colIndex) => {
+            column.forEach((tournamentName, rowIndex) => {
+                // Find the data for the current tournament
+                let d = vis.processedData.find(item => item.Tournament === tournamentName);
+                if (!d) return; // Skip if no data is found for this tournament
 
-// Left Leg (Rounded Rectangle angled downwards)
-        vis.svg.append("rect")
-            .attr("x", vis.width / 4 - 20)
-            .attr("y", vis.height * 0.45)
-            .attr("width", 15)
-            .attr("height", 60)
-            .attr("rx", 5) // Rounded corners
-            .attr("ry", 5)
-            .attr("fill", "lightskyblue");
+                // Prepare pie chart data
+                let pieData = pie([
+                    { label: "Aff Win %", value: d.affWinPercentage },
+                    { label: "Neg Win %", value: d.negWinPercentage }
+                ]);
 
-// Right Leg (Rounded Rectangle angled downwards)
-        vis.svg.append("rect")
-            .attr("x", vis.width / 4 + 5)
-            .attr("y", vis.height * 0.45)
-            .attr("width", 15)
-            .attr("height", 60)
-            .attr("rx", 5) // Rounded corners
-            .attr("ry", 5)
-            .attr("fill", "lightskyblue");
+                // Calculate x and y positions for each pie chart
+                let x = colIndex * vis.radius * 5;  // Adjust for column spacing
+                let y = rowIndex * vis.radius * 3.5;  // Adjust for row spacing
 
-// Gender Label
-        vis.svg.append("text")
-            .attr("x", vis.width / 4)
-            .attr("y", vis.height * 0.1)
-            .attr("text-anchor", "middle")
-            .attr("font-size", "20px")
-            .style("font-family", "Arial")
-            .style("fill", "white")
-            .style("font-weight", "bold")
-            .text("Male");
+                // Create a group for each tournament pie chart
+                let tournamentGroup = vis.chartGroup.append("g")
+                    .attr("transform", `translate(${x + vis.radius * 2}, ${y + vis.radius * 2})`);
+
+                // Append tournament label above the pie chart
+                tournamentGroup.append("text")
+                    .attr("x", 0)
+                    .attr("y", -vis.radius - 10)
+                    .attr("text-anchor", "middle")
+                    .attr("font-size", "12px")
+                    .style("fill", "white")
+                    .style("font-family", "Arial")
+                    .text(d.Tournament);
+
+                // Draw the pie chart slices
+                tournamentGroup.selectAll("path")
+                    .data(pieData)
+                    .enter()
+                    .append("path")
+                    .attr("d", arc)
+                    .attr("fill", (sliceData, idx) => vis.color(idx))
+                    .attr("stroke", "white")
+                    .attr("stroke-width", 1);
+            });
+        });
     }
 
 
