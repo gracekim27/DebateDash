@@ -84,24 +84,39 @@
 <div class="row">
     <h2>Want to simulate how you might perform in a debate? Pick your characteristics and simulate your performance!</h2>
 </div>
-<div>
-    <select class="form-select" aria-label="Select gender">
-        <option selected>Gender</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-    </select>
-    <select class="form-select" aria-label="Select school type">
-        <option selected>School</option>
-        <option value="Male">Public School</option>
-        <option value="Female">Private School</option>
-    </select>
-    <div data-mdb-input-init class="form-outline" style="width: 22rem;">
-        <input min="1000" max="3000" type="number" id="typeELO" class="form-control" />
-        <label class="form-label" for="typeELO">ELO</label>
+    <div class="select-container vis">
+        <select class="form-select select-box" aria-label="Gender">
+            <option value="" disabled selected>Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+        <select class="form-select select-box" aria-label="School type">
+            <option value="" disabled selected>Select an option</option>
+            <option value="Male">Public School</option>
+            <option value="Female">Private School</option>
+        </select>
+        <div data-mdb-input-init class="form-outline select-box">
+            <input min="1000" max="3000" type="number" id="typeELO" class="form-control" placeholder="ELO" />
+        </div>
+        <button type="button" class="btn btn-primary">Go!</button>
     </div>
-    <button type="button" class="btn btn-primary">Go!</button>
+    <div class="select-container vis">
+        <select class="form-select select-box" aria-label="Gender">
+            <option value="" disabled selected>Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+        <select class="form-select select-box" aria-label="School type">
+            <option value="" disabled selected>Select an option</option>
+            <option value="Male">Public School</option>
+            <option value="Female">Private School</option>
+        </select>
+        <div data-mdb-input-init class="form-outline select-box">
+            <input min="1000" max="3000" type="number" id="typeELO" class="form-control" placeholder="ELO" />
+        </div>
+        <button type="button" class="btn btn-primary">Go!</button>
+    </div>
     <div id="performanceSimulator" class="vis"></div>
-</div>
 <hr>
 
 <div class="row">

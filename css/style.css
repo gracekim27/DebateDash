@@ -95,3 +95,17 @@ hr {
     border: 0;
     border-top: 2px dashed white;
 }
+
+.select-container {
+    display: flex;
+    gap: 10px;  /* Add space between select elements */
+    justify-content: center;
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.select-box {
+    width: 150px; /* Set width for each select */
+    padding: 5px; /* Optional padding */
+}

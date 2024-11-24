@@ -30,7 +30,7 @@ function initMainPage(dataArray) {
     affNegSplits = new AffNegSplits("affNegSplits", winData);
     winsELOs = new WinsELO("winsELOs", tournamentData);
     eloChange = new EloChange("eloChange", tournamentData);
-    performanceSimulator = new PerformanceSimulator("eloChange", tournamentData);
+    performanceSimulator = new PerformanceSimulator("performanceSimulator", tournamentData);
 }
 
 function categoryChange() {

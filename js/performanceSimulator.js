@@ -4,7 +4,6 @@ class PerformanceSimulator {
         this.parentElement = parentElement;
         this.data = data;
 
-        // Initialize the visualization
         this.initVis();
     }
 
@@ -27,6 +26,8 @@ class PerformanceSimulator {
         vis.chartGroup = vis.svg.append("g")
             .attr("transform", `translate(${vis.margin.left},${vis.margin.top})`);
 
+        vis.color = d3.scaleOrdinal(["#40e36b", "#e34040"]);
+
         // Wrangle data to calculate required statistics
         vis.wrangleData();
     }
@@ -34,7 +35,7 @@ class PerformanceSimulator {
     wrangleData() {
         let vis = this;
 
-        vis.processedData = {"win": .5, "lose": .5}
+        vis.pieData = [{value: .5}, {value: .5}]
 
         vis.updateVis();
     }
@@ -43,73 +44,26 @@ class PerformanceSimulator {
 
         let vis = this;
 
-        // Clear previous dynamic content before re-rendering
-        vis.chartGroup.selectAll("*").remove();
+        vis.radius = 100;
 
-        // Ensure radius is set before defining arc
-        vis.radius = 30;
-
-        // Define pie layout and arc generator
         const pie = d3.pie()
             .value(d => d.value)
             .sort(null);
 
         const arc = d3.arc()
-            .innerRadius(0)
-            .outerRadius(vis.radius);
+            .outerRadius(vis.radius)
+            .innerRadius(0);
 
-        // Define color scale
-        vis.color = d3.scaleOrdinal(["#40e36b", "#e34040"]); // Colors for Aff and Neg
+        const arcs = vis.svg.selectAll(".arc")
+            .data(pie(vis.pieData))
+            .enter().append("g")
+            .attr("class", "arc");
 
-        // Custom layout based on specified column and row arrangement
-        const layout = [
-            ["Greenhill", "MidAmerica", "Bronx"],
-            ["Heart", "Apple Valley", "Glenbrooks"],
-            ["HarvWest", "Emory", "Harvard", "Berk"]
-        ];
+        // Append path (slices) to each arc group
+        arcs.append("path")
+            .attr("d", arc)
+            .attr("fill", (d, i) => vis.color(i));
 
-        // Iterate over layout array to arrange pie charts
-        layout.forEach((column, colIndex) => {
-            column.forEach((tournamentName, rowIndex) => {
-                // Find the data for the current tournament
-                let d = vis.processedData.find(item => item.Tournament === tournamentName);
-                if (!d) return; // Skip if no data is found for this tournament
-
-                // Prepare pie chart data
-                let pieData = pie([
-                    { label: "Aff Win %", value: d.affWinPercentage },
-                    { label: "Neg Win %", value: d.negWinPercentage }
-                ]);
-
-                // Calculate x and y positions for each pie chart
-                let x = colIndex * vis.radius * 5;  // Adjust for column spacing
-                let y = rowIndex * vis.radius * 3.5;  // Adjust for row spacing
-
-                // Create a group for each tournament pie chart
-                let tournamentGroup = vis.chartGroup.append("g")
-                    .attr("transform", `translate(${x + vis.radius * 2}, ${y + vis.radius * 2})`);
-
-                // Append tournament label above the pie chart
-                tournamentGroup.append("text")
-                    .attr("x", 0)
-                    .attr("y", -vis.radius - 10)
-                    .attr("text-anchor", "middle")
-                    .attr("font-size", "12px")
-                    .style("fill", "white")
-                    .style("font-family", "Arial")
-                    .text(d.Tournament);
-
-                // Draw the pie chart slices
-                tournamentGroup.selectAll("path")
-                    .data(pieData)
-                    .enter()
-                    .append("path")
-                    .attr("d", arc)
-                    .attr("fill", (sliceData, idx) => vis.color(idx))
-                    .attr("stroke", "white")
-                    .attr("stroke-width", 1);
-            });
-        });
     }
 
 
