@@ -35,7 +35,7 @@ class PerformanceSimulator {
     wrangleData() {
         let vis = this;
 
-        vis.pieData = [{value: .5}, {value: .5}]
+        vis.pieData = [{value: .6}, {value: .5}]
 
         vis.updateVis();
     }
@@ -57,7 +57,8 @@ class PerformanceSimulator {
         const arcs = vis.svg.selectAll(".arc")
             .data(pie(vis.pieData))
             .enter().append("g")
-            .attr("class", "arc");
+            .attr("class", "arc")
+            .attr("transform", `translate(${vis.width/2}, 100)`);
 
         // Append path (slices) to each arc group
         arcs.append("path")

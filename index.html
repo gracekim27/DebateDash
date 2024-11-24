@@ -94,42 +94,46 @@
 
 <hr>
 
+
 <div class="row">
     <h2>Want to simulate how you might perform in a debate? Pick your characteristics and simulate your performance!</h2>
 </div>
-    <div class="select-container vis">
-        <select class="form-select select-box" aria-label="Gender">
-            <option value="" disabled selected>Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-        </select>
-        <select class="form-select select-box" aria-label="School type">
-            <option value="" disabled selected>Select an option</option>
-            <option value="Male">Public School</option>
-            <option value="Female">Private School</option>
-        </select>
-        <div data-mdb-input-init class="form-outline select-box">
-            <input min="1000" max="3000" type="number" id="typeELO" class="form-control" placeholder="ELO" />
-        </div>
-        <button type="button" class="btn btn-primary">Go!</button>
+<div class="select-container vis">
+    <p><b>You: </b></p>
+    <select class="form-select select-box" aria-label="Gender" id="youGender">
+        <option value="" disabled selected>Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+    </select>
+    <select class="form-select select-box" aria-label="School type"  id="youSchool">
+        <option value="" disabled selected>Select an option</option>
+        <option value="Male">Public School</option>
+        <option value="Female">Private School</option>
+    </select>
+    <div data-mdb-input-init class="form-outline select-box">
+        <input min="-200" max="800" type="number" id="youELO" class="form-control" placeholder="ELO" />
     </div>
-    <div class="select-container vis">
-        <select class="form-select select-box" aria-label="Gender">
-            <option value="" disabled selected>Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-        </select>
-        <select class="form-select select-box" aria-label="School type">
-            <option value="" disabled selected>Select an option</option>
-            <option value="Male">Public School</option>
-            <option value="Female">Private School</option>
-        </select>
-        <div data-mdb-input-init class="form-outline select-box">
-            <input min="1000" max="3000" type="number" id="typeELO" class="form-control" placeholder="ELO" />
-        </div>
-        <button type="button" class="btn btn-primary">Go!</button>
+</div>
+<div class="select-container vis">
+    <p><b>Opponent: </b></p>
+    <select class="form-select select-box" aria-label="Gender" id="oppGender">
+        <option value="" disabled selected>Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+    </select>
+    <select class="form-select select-box" aria-label="School type"  id="oppSchool">
+        <option value="" disabled selected>Select an option</option>
+        <option value="Male">Public School</option>
+        <option value="Female">Private School</option>
+    </select>
+    <div data-mdb-input-init class="form-outline select-box">
+        <input min="-200" max="800" type="number" id="oppELO" class="form-control" placeholder="ELO" />
     </div>
+    <button type="button" class="btn btn-primary vis">Go!</button>
+</div>
+<div class="row">
     <div id="performanceSimulator" class="vis"></div>
+</div>
 <hr>
 
 <div class="row">
