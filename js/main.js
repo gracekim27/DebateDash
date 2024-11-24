@@ -3,6 +3,7 @@ let debaterProfile;
 let affNegSplits;
 let winsELOs;
 let eloChange;
+let performanceSimulator;
 
 let promises = [
     d3.csv("data/CS171_TournamentData.csv"),
@@ -29,7 +30,7 @@ function initMainPage(dataArray) {
     affNegSplits = new AffNegSplits("affNegSplits", winData);
     winsELOs = new WinsELO("winsELOs", tournamentData);
     eloChange = new EloChange("eloChange", tournamentData);
-    performanceSimulator = new EloChange("eloChange", eloSimulationData);
+    performanceSimulator = new PerformanceSimulator("eloChange", tournamentData);
 }
 
 function categoryChange() {
