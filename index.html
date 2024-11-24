@@ -37,7 +37,7 @@
             Our analysis focuses on Lincoln-Douglas Debate results from the 2023-2024 competitive season. We aggregate data from both preliminary and elimination rounds of triple-octa final bid tournaments. These tournaments represent the largest and most competitive events, ensuring consistency in difficulty levels across the dataset.
         </p>
         <p>
-            To analyze disparities, we use the Python library <code>gender-guesser</code> to infer participant genders based on first names. We include only those predictions with high certainty to ensure accuracy. Additionally, we calculate Elo scores for debaters using a base Elo of 400, round multipliers for elimination rounds to account for their increasing importance, and a learning constant of K = 100. The round multipliers are:
+            To analyze disparities, we use the Python library <a href="https://pypi.org/project/gender-guesser/">gender-guesser</a> to infer participant genders based on first names. We include only those predictions with high certainty to ensure accuracy. Additionally, we calculate Elo scores for debaters using a base Elo of 200, round multipliers for elimination rounds to account for their increasing importance, and a learning constant of K = 100. The round multipliers are:
         </p>
         <ul>
             <li>Prelim: 1.0</li>
@@ -49,7 +49,7 @@
             <li>Semis: 2.0</li>
         </ul>
         <p>
-            These adjustments ensure that our analysis accurately reflects the significance of performance in each stage of competition.
+            These adjustments ensure that our analysis accurately reflects the significance of performance in each stage of competition. Let's begin our analysis by looking at overall trends in debate. We can start by looking at an average debater profile.
         </p>
 
     </div>
@@ -59,25 +59,38 @@
 
 
 <hr>
-<div class="row">
-    <h2>There is a gap in competitive performance across gender and across public/private schools.</h2>
-</div>
 
-<div id="firstBar" class="vis"></div>
-
-<h2>* Need to add tooltip element here, hover over a bar and you get details, maybe also more details on the side like general average for private/public and boys/girls</h2>
-
-<hr>
 
 <div class="row">
-    <h2>What does the average debater profile look like?</h2>
+    <h2>Average Debater Profile</h2>
 </div>
 
 <div id="debaterProfile" class="vis">
 
+
 </div>
 
-<h2>* fix design and make more interactive maybe</h2>
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <p>
+            This profile shows that the average debater is male, wins about 3 rounds per tournament, and has an Elo of ~200. Now, imagine breaking this into groups—how might the average Elo differ by gender or school type?
+        </p>
+    </div>
+    <div class="col-2"></div>
+</div>
+
+
+<hr>
+
+<div class="row">
+    <h2>There is a gap in competitive performance across gender and across public/private schools.</h2>
+</div>
+
+
+<div id="firstBar" class="vis"></div>
+
+<hr>
 
 <hr>
 
