@@ -3,6 +3,9 @@ class EloChange {
         this.parentElement = parentElement;
         this.data = data;
 
+        // Set initial minTournaments value (default slider value)
+        this.minTournaments = 5;
+
         // Initialize the visualization
         this.initVis();
     }
@@ -22,7 +25,6 @@ class EloChange {
             .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
             .append("g")
             .attr("transform", `translate(${vis.margin.left},${vis.margin.top})`);
-
 
         // Create a group for dynamic content (line chart)
         vis.chartGroup = vis.svg.append("g");
@@ -44,33 +46,55 @@ class EloChange {
 
         // Process data for each competitor
         vis.competitorData = groupedData.map(([competitor, records]) => {
-            // Get gender from the first record (assuming it's consistent for each competitor)
             let gender = records[0].Gender;
 
-            // Order the records by the specified tournament order and filter to keep only relevant tournaments
+            // Order records and filter for relevant tournaments
             let orderedRecords = vis.tournamentOrder.map(tournament => {
                 let record = records.find(d => d.Tournament === tournament);
                 return {
                     Tournament: tournament,
                     Elo: record ? +record.Elo : null
                 };
-            }).filter(d => d.Elo !== null); // Filter out tournaments with no ELO data
+            }).filter(d => d.Elo !== null);
+
+            // Count the number of tournaments attended
+            let tournamentsAttended = orderedRecords.length;
+
+            // Debugging: log competitor and tournaments attended
+            console.log("Competitor:", competitor, "Tournaments Attended:", tournamentsAttended);
 
             return {
                 competitor,
                 gender,
-                records: orderedRecords
+                records: orderedRecords,
+                tournamentsAttended
             };
-        });
+        }).filter(d => d.tournamentsAttended >= vis.minTournaments); // Apply the filter
+
+        // Debugging: log filtered data
+        console.log("Filtered Competitor Data for EloChange:", vis.competitorData);
 
         vis.updateVis();
     }
+
 
     updateVis() {
         let vis = this;
 
         // Clear previous elements
         vis.chartGroup.selectAll("*").remove();
+
+        // Check if there is any data to visualize
+        if (vis.competitorData.length === 0) {
+            vis.chartGroup.append("text")
+                .attr("x", vis.width / 2)
+                .attr("y", vis.height / 2)
+                .attr("text-anchor", "middle")
+                .style("font-size", "16px")
+                .style("fill", "white")
+                .text("No data available for the selected filter.");
+            return;
+        }
 
         // Define scales
         vis.xScale = d3.scalePoint()
@@ -79,8 +103,10 @@ class EloChange {
             .padding(0.5); // Space between points
 
         vis.yScale = d3.scaleLinear()
-            .domain([d3.min(vis.competitorData, c => d3.min(c.records, r => r.Elo)) * 0.9,
-                d3.max(vis.competitorData, c => d3.max(c.records, r => r.Elo)) * 1.1])
+            .domain([
+                d3.min(vis.competitorData, c => d3.min(c.records, r => r.Elo)) * 0.9,
+                d3.max(vis.competitorData, c => d3.max(c.records, r => r.Elo)) * 1.1
+            ])
             .range([vis.height, 0]);
 
         // Define line generator

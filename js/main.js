@@ -26,13 +26,39 @@ function initMainPage(dataArray) {
 
     console.log('Data', tournamentData);
 
-    // Corrected instantiation to match the class name `FirstBar`
+    // Initialize visualizations
     firstBar = new FirstBar('firstBar', tournamentData);
     debaterProfile = new DebaterProfile('debaterProfile', tournamentData);
     affNegSplits = new AffNegSplits("affNegSplits", winData);
     winsELOs = new WinsELO("winsELOs", tournamentData);
     eloChange = new EloChange("eloChange", tournamentData);
     performanceSimulator = new PerformanceSimulator("performanceSimulator", probsData);
+
+    // Setup slider for filtering visualizations
+    setupSlider();
+}
+
+function setupSlider() {
+    const slider = document.getElementById("mySlider");
+    const sliderValue = document.getElementById("sliderValue");
+
+    slider.addEventListener("input", function () {
+        const minTournaments = +slider.value; // Get the slider value
+        sliderValue.textContent = minTournaments; // Update slider display
+
+        // Debugging: log slider value
+        console.log("Slider value (minTournaments):", minTournaments);
+
+        // Update `minTournaments` and re-filter data
+        eloChange.minTournaments = minTournaments;
+
+        // Debugging: log before calling wrangleData
+        console.log("Updating EloChange with minTournaments:", eloChange.minTournaments);
+
+        eloChange.wrangleData();
+    });
+
+
 }
 
 function categoryChange() {
@@ -47,4 +73,5 @@ function simulateOdds() {
     performanceSimulator.wrangleData();
 }
 
+// Attach simulateOdds to button click
 d3.select("#performanceSimulatorButton").on('click', simulateOdds);

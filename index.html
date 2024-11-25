@@ -143,10 +143,16 @@
 
     <hr>
 
+    <div class="minTournament">
+        <h2>Filter by Minimum Tournaments Attended</h2>
+        <p>Adjust the slider to filter competitors based on the minimum number of tournaments attended.</p>
+        <input type="range" id="mySlider" min="0" max="10" value="5" class="form-range">
+        <p>Minimum Tournaments: <span id="sliderValue">5</span></p>
+    </div>
+
     <h3>Average ELO vs. Average # of Wins</h3>
     <div id="winsELOs" class="vis"></div>
 
-    <hr>
 
     <h3>How ELo Changes Throughout Tournament Season</h3>
     <div id="eloChange" class="vis"></div>
