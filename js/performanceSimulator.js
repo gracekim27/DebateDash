@@ -50,11 +50,11 @@ class PerformanceSimulator {
         let unweighted_odds = 1  / (1 + Math.pow(10, difference / eloParam));
 
         let label = youSchool + youGender + "vs" + oppSchool + oppGender;
-        let multiplier = vis.data[0][label] * 2;
+        let multiplier = vis.data[0][label];
 
         console.log(label, multiplier)
 
-        let odds = (unweighted_odds * multiplier) / ((unweighted_odds * multiplier) + (1 - unweighted_odds));
+        let odds = (unweighted_odds * multiplier * 2) / ((unweighted_odds * multiplier * 2) + (1 - multiplier) * 2 * (1 - unweighted_odds));
 
         console.log(odds);
 
