@@ -58,7 +58,7 @@ class FirstBar {
             .attr("y", 0)
             .text("Other averages")
             .style("fill", "white")
-            .style("font-size", "14px")
+            .style("font-size", "16px")
             .style("font-weight", "bold");
 
         vis.wrangleData();
@@ -193,7 +193,8 @@ class FirstBar {
             .attr("y", 20)
             .text(`All Private: ${vis.overallAverages.private?.toFixed(2) || "N/A"}`)
             .style("fill", "white")
-            .style("font-size", "12px");
+            .style("font-size", "16px")
+            .style("font-weight", "600");
 
         vis.summaryGroup.append("text")
             .attr("class", "summary-text")
@@ -201,7 +202,8 @@ class FirstBar {
             .attr("y", 40)
             .text(`All Public: ${vis.overallAverages.public?.toFixed(2) || "N/A"}`)
             .style("fill", "white")
-            .style("font-size", "12px");
+            .style("font-size", "16px")
+            .style("font-weight", "200");
 
         vis.summaryGroup.append("text")
             .attr("class", "summary-text")
@@ -209,7 +211,8 @@ class FirstBar {
             .attr("y", 60)
             .text(`All Boys: ${vis.overallAverages.boys?.toFixed(2) || "N/A"}`)
             .style("fill", "white")
-            .style("font-size", "12px");
+            .style("font-size", "16px")
+            .style("font-weight", "600");
 
         vis.summaryGroup.append("text")
             .attr("class", "summary-text")
@@ -217,6 +220,8 @@ class FirstBar {
             .attr("y", 80)
             .text(`All Girls: ${vis.overallAverages.girls?.toFixed(2) || "N/A"}`)
             .style("fill", "white")
-            .style("font-size", "12px");
+            .style("font-size", "16px")
+            .style("font-weight", "200");
+
     }
 }
