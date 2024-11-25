@@ -35,7 +35,30 @@ class PerformanceSimulator {
     wrangleData() {
         let vis = this;
 
-        vis.pieData = [{value: .6}, {value: .5}]
+        console.log("Simulating odds");
+
+        console.log(d3.select("#youGender").node().value === "Male");
+        let youGender = d3.select("#youGender").node().value === "Male" ? "Boys" : "Girls";
+        let oppGender = d3.select("#oppGender").node().value === "Male" ? "Boys" : "Girls";
+        let youSchool = d3.select("#youSchool").node().value === "Public School" ? "Public" : "Private";
+        let oppSchool = d3.select("#oppSchool").node().value === "Public School" ? "Public" : "Private";
+        let youElo = parseInt(d3.select("#youELO").node().value);
+        let oppElo = parseInt(d3.select("#oppELO").node().value);
+
+        let difference = oppElo - youElo;
+        let eloParam = 400;
+        let unweighted_odds = 1  / (1 + Math.pow(10, difference / eloParam));
+
+        let label = youSchool + youGender + "vs" + oppSchool + oppGender;
+        let multiplier = vis.data[0][label] * 2;
+
+        console.log(label, multiplier)
+
+        let odds = (unweighted_odds * multiplier) / ((unweighted_odds * multiplier) + (1 - unweighted_odds));
+
+        console.log(odds);
+
+        vis.pieData = [{result: "win", value: odds}, {result: "lose", value: 1-odds}]
 
         vis.updateVis();
     }
@@ -43,6 +66,8 @@ class PerformanceSimulator {
     updateVis() {
 
         let vis = this;
+
+        vis.svg.selectAll("*").remove();
 
         vis.radius = 100;
 
@@ -60,11 +85,29 @@ class PerformanceSimulator {
             .attr("class", "arc")
             .attr("transform", `translate(${vis.width/2}, 100)`);
 
+
         // Append path (slices) to each arc group
         arcs.append("path")
             .attr("d", arc)
             .attr("fill", (d, i) => vis.color(i));
 
+        let percentageWin = Math.round(vis.pieData[0].value * 100);
+        let percentageLose = Math.round(vis.pieData[1].value * 100);
+
+        vis.svg.append("text")
+            .text("WIN: \n" + percentageWin + "%")
+            .attr("x",  vis.width / 2 + 120)
+            .attr("y", 50)
+            .attr("font-size", "24px")
+            .attr("fill", "#ffffff")
+
+        vis.svg.append("text")
+            .text("LOSE: \n" + percentageLose + "%")
+            .attr("text-anchor", "end")
+            .attr("x",  vis.width / 2 - 120)
+            .attr("y", 50)
+            .attr("font-size", "24px")
+            .attr("fill", "#ffffff")
     }
 
 

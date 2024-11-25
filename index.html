@@ -107,11 +107,12 @@
     </select>
     <select class="form-select select-box" aria-label="School type"  id="youSchool">
         <option value="" disabled selected>Select an option</option>
-        <option value="Male">Public School</option>
-        <option value="Female">Private School</option>
+        <option value="Public School">Public School</option>
+        <option value="Private School">Private School</option>
     </select>
+    <p><b>ELO: </b></p>
     <div data-mdb-input-init class="form-outline select-box">
-        <input min="-200" max="800" type="number" id="youELO" class="form-control" placeholder="ELO" />
+        <input min="-200" max="800" value="200" type="number" id="youELO" class="form-control" placeholder="200" />
     </div>
 </div>
 <div class="select-container vis">
@@ -123,13 +124,14 @@
     </select>
     <select class="form-select select-box" aria-label="School type"  id="oppSchool">
         <option value="" disabled selected>Select an option</option>
-        <option value="Male">Public School</option>
-        <option value="Female">Private School</option>
+        <option value="Public School">Public School</option>
+        <option value="Private School">Private School</option>
     </select>
+    <p><b>ELO: </b></p>
     <div data-mdb-input-init class="form-outline select-box">
-        <input min="-200" max="800" type="number" id="oppELO" class="form-control" placeholder="ELO" />
+        <input min="-200" max="800" value="200" type="number" id="oppELO" class="form-control" placeholder="200" />
     </div>
-    <button type="button" class="btn btn-primary vis">Go!</button>
+    <button type="button" class="btn btn-primary vis" id="performanceSimulatorButton">Go!</button>
 </div>
 <div class="row">
     <div id="performanceSimulator" class="vis"></div>

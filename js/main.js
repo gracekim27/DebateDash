@@ -7,7 +7,8 @@ let performanceSimulator;
 
 let promises = [
     d3.csv("data/CS171_TournamentData.csv"),
-    d3.csv("data/win_percentages_df.csv")
+    d3.csv("data/win_percentages_df.csv"),
+    d3.csv("data/probs.csv")
 ];
 
 Promise.all(promises)
@@ -21,6 +22,7 @@ Promise.all(promises)
 function initMainPage(dataArray) {
     let tournamentData = dataArray[0];
     let winData = dataArray[1];
+    let probsData = dataArray[2];
 
     console.log('Data', tournamentData);
 
@@ -30,7 +32,7 @@ function initMainPage(dataArray) {
     affNegSplits = new AffNegSplits("affNegSplits", winData);
     winsELOs = new WinsELO("winsELOs", tournamentData);
     eloChange = new EloChange("eloChange", tournamentData);
-    performanceSimulator = new PerformanceSimulator("performanceSimulator", tournamentData);
+    performanceSimulator = new PerformanceSimulator("performanceSimulator", probsData);
 }
 
 function categoryChange() {
@@ -39,3 +41,10 @@ function categoryChange() {
     affNegSplits.wrangleData();
     winsELOs.wrangleData();
 }
+
+function simulateOdds() {
+    console.log('GOT HERE');
+    performanceSimulator.wrangleData();
+}
+
+d3.select("#performanceSimulatorButton").on('click', simulateOdds);
