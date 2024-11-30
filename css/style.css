@@ -7,7 +7,7 @@
 
 
 #manPointing{
-    margin-right: 8em;
+    padding-right: 1em;
     padding-top: 15em;
 }
 
@@ -48,12 +48,11 @@ h1{
     position: absolute;
     top: 50%;
     left: 50%;
-    font-size: 6em;
+    font-size: 5em;
     color: white;
     margin-left: 2em;
-    padding-top: 1%;
     -webkit-text-stroke: 4px black;
-    transform: translate(-75%, -50%);
+    transform: translate(-72%, -50%);
 }
 
 .bangers-regular {
@@ -240,13 +239,13 @@ hr {
 .container_welcome{
     position: relative;
     height: 90vh;
-    width: 60%;
+    width: 80%;
     border: solid 3px black;
     background-color:#FE1D87;
     margin-left: auto; /* Horizontally center the section */
     margin-right: auto; /* Horizontally center the section */
     justify-content: center; /* Horizontal centering */
-    background: radial-gradient(circle, rgba(0, 0, 0, 0.1) 30%, rgba(0, 0, 0, 0) 00%);
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.1) 30%, rgba(0, 0, 0, 0.2) 10%);
     background-size: 5px 5px; /* Adjust dot size and spacing */
     background-color: #FE1D87; /* Base color (pink) */
     margin-top: 3em;
