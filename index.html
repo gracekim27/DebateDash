@@ -19,9 +19,8 @@
 
 <div class="row">
     <div class="heading-container">
-    <h1 class="bangers-regular">Debate Dash</h1>
-    <img src="img/debateDash.png" alt="Man Pointing" style="width: 20em;height:auto;">
-
+        <h1 class="bangers-regular">Debate Dash</h1>
+        <img src="img/debateDash.png" alt="Man Pointing" style="width: 20em;height:auto;">
     </div>
     <h4>Visualizing debate tournament results and the disparities within them.</h4>
     <h5>Grace Kim and Liam Norman</h5>
@@ -44,40 +43,39 @@
     <div class="col-2"></div>
         <div class="col-8">
             <div class="section1">
-            <h6>
-                Why debate?
-            </h6>
-            <p>
-                Debate is more than just an academic competition; it fosters critical thinking, public speaking, and persuasive argumentation. However, disparities in resources, judging biases, and access to opportunities often impact competitive outcomes. By visualizing tournament data, we aim to shed light on these issues and highlight areas for improvement.
-            </p>
+                <h6>
+                    Why debate?
+                </h6>
+                <p>
+                    Debate is more than just an academic competition; it fosters critical thinking, public speaking, and persuasive argumentation. However, disparities in resources, judging biases, and access to opportunities often impact competitive outcomes. By visualizing tournament data, we aim to shed light on these issues and highlight areas for improvement.
+                </p>
 
-            <h6>What Data?</h6>
-            <p>
-                Our analysis focuses on Lincoln-Douglas Debate results from the 2023-2024 competitive season. We aggregate data from both preliminary and elimination rounds of triple-octa final bid tournaments. These tournaments represent the largest and most competitive events, ensuring consistency in difficulty levels across the dataset.
-            </p>
-            <p>
-                To analyze disparities, we use the Python library <a href="https://pypi.org/project/gender-guesser/">gender-guesser</a> to infer participant genders based on first names. We include only those predictions with high certainty to ensure accuracy. Additionally, we calculate Elo scores for debaters using a base Elo of 200, round multipliers for elimination rounds to account for their increasing importance, and a learning constant of K = 100. The round multipliers are:
-            </p>
-            <ul>
-                <li>Prelim: 1.0</li>
-                <li>Quads: 1.1</li>
-                <li>Trips: 1.2</li>
-                <li>Dubs: 1.4</li>
-                <li>Octos: 1.6</li>
-                <li>Quarters: 1.8</li>
-                <li>Semis: 2.0</li>
-            </ul>
-            <p>
-                These adjustments ensure that our analysis accurately reflects the significance of performance in each stage of competition. Let's begin our analysis by looking at overall trends in debate. We can start by looking at an average debater profile.
-            </p>
+                <h6>What Data?</h6>
+                <p>
+                    Our analysis focuses on Lincoln-Douglas Debate results from the 2023-2024 competitive season. We aggregate data from both preliminary and elimination rounds of triple-octa final bid tournaments. These tournaments represent the largest and most competitive events, ensuring consistency in difficulty levels across the dataset.
+                </p>
+                <p>
+                    To analyze disparities, we use the Python library <a href="https://pypi.org/project/gender-guesser/">gender-guesser</a> to infer participant genders based on first names. We include only those predictions with high certainty to ensure accuracy. Additionally, we calculate Elo scores for debaters using a base Elo of 200, round multipliers for elimination rounds to account for their increasing importance, and a learning constant of K = 100. The round multipliers are:
+                </p>
+                <ul>
+                    <li>Prelim: 1.0</li>
+                    <li>Quads: 1.1</li>
+                    <li>Trips: 1.2</li>
+                    <li>Dubs: 1.4</li>
+                    <li>Octos: 1.6</li>
+                    <li>Quarters: 1.8</li>
+                    <li>Semis: 2.0</li>
+                </ul>
+                <p>
+                    These adjustments ensure that our analysis accurately reflects the significance of performance in each stage of competition. Let's begin our analysis by looking at overall trends in debate. We can start by looking at an average debater profile.
+                </p>
 
-                </div>
+            </div>
         </div>
     <div class="col-2"></div>
 </div>
 
 <hr>
-
 
 <div class="row">
     <div class="col-2"></div>
@@ -89,116 +87,156 @@
                 This profile shows that the average debater is male, wins about 3 rounds per tournament, and has an Elo of ~200. Now, imagine breaking this into groups—how might the average Elo differ by gender or school type?
             </p>
         </div>
+    </div>
     <div class="col-2"></div>
 </div>
 
 <hr>
 
 <div class="row">
-    <div class="section3">
-        <h2>There is a gap in competitive performance across gender and across public/private schools.</h2>
-        <div id="firstBar" class="vis"></div>
-    </div>
-</div>
-
-
-
-<hr>
-
-<div class="section4">
-<div class="row">
-    <h2>Want to simulate how you might perform in a debate? Pick your characteristics and simulate your performance!</h2>
-</div>
-<div class="select-container vis">
-    <p><b>You: </b></p>
-    <select class="form-select select-box" aria-label="Gender" id="youGender">
-        <option value="" disabled selected>Gender</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-    </select>
-    <select class="form-select select-box" aria-label="School type"  id="youSchool">
-        <option value="" disabled selected>Select an option</option>
-        <option value="Public School">Public School</option>
-        <option value="Private School">Private School</option>
-    </select>
-    <p><b>ELO: </b></p>
-    <div data-mdb-input-init class="form-outline select-box">
-        <input min="-200" max="800" value="200" type="number" id="youELO" class="form-control" placeholder="200" />
-    </div>
-</div>
-<div class="select-container vis">
-    <p><b>Opponent: </b></p>
-    <select class="form-select select-box" aria-label="Gender" id="oppGender">
-        <option value="" disabled selected>Gender</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-    </select>
-    <select class="form-select select-box" aria-label="School type"  id="oppSchool">
-        <option value="" disabled selected>Select an option</option>
-        <option value="Public School">Public School</option>
-        <option value="Private School">Private School</option>
-    </select>
-    <p><b>ELO: </b></p>
-    <div data-mdb-input-init class="form-outline select-box">
-        <input min="-200" max="800" value="200" type="number" id="oppELO" class="form-control" placeholder="200" />
-    </div>
-    <button type="button" class="btn btn-primary vis" id="performanceSimulatorButton">Go!</button>
-</div>
-<div class="row">
-    <div id="performanceSimulator" class="vis"></div>
-</div>
-</div>
-
-<hr>
-<div class="row">
-
-    <div class="section5">
-        <h3>Aff/Neg Splits at Tournaments</h3>
-        <div id="affNegSplits" class="vis"></div>
-    </div>
-
-    <hr>
-
-    <div class="section6">
-        <div class="minTournament">
-            <h2>Filter by Minimum Tournaments Attended</h2>
-            <p>Adjust the slider to filter competitors based on the minimum number of tournaments attended.</p>
-            <input type="range" id="mySlider" min="0" max="10" value="5" class="form-range">
-            <p>Minimum Tournaments: <span id="sliderValue">5</span></p>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <h3>Average ELO vs. Average # of Wins</h3>
-                <div id="winsELOs" class="vis"></div>
-            </div>
-
-            <div class="col-6">
-                <h3>How ELo Changes Throughout Tournament Season</h3>
-                <div id="eloChange" class="vis"></div>
-            </div>
-
+    <div class="col-2"></div>
+    <div class="col-8">
+        <div class="section3">
+            <h2>There is a gap in competitive performance across gender and across public/private schools.</h2>
+            <div id="firstBar" class="vis"></div>
         </div>
     </div>
+    <div class="col-2"></div>
+</div>
+
+
+
+<hr>
+
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <div class="section4">
+            <div class="row">
+                <h2>Want to simulate how you might perform in a debate? Pick your characteristics and simulate your performance!</h2>
+            </div>
+            <div class="select-container vis">
+                <p><b>You: </b></p>
+                <select class="form-select select-box" aria-label="Gender" id="youGender">
+                    <option value="" disabled selected>Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+                <select class="form-select select-box" aria-label="School type"  id="youSchool">
+                    <option value="" disabled selected>Select an option</option>
+                    <option value="Public School">Public School</option>
+                    <option value="Private School">Private School</option>
+                </select>
+                <p><b>ELO: </b></p>
+                <div data-mdb-input-init class="form-outline select-box">
+                    <input min="-200" max="800" value="200" type="number" id="youELO" class="form-control" placeholder="200" />
+                </div>
+            </div>
+            <div class="select-container vis">
+                <p><b>Opponent: </b></p>
+                <select class="form-select select-box" aria-label="Gender" id="oppGender">
+                    <option value="" disabled selected>Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+                <select class="form-select select-box" aria-label="School type"  id="oppSchool">
+                    <option value="" disabled selected>Select an option</option>
+                    <option value="Public School">Public School</option>
+                    <option value="Private School">Private School</option>
+                </select>
+                <p><b>ELO: </b></p>
+                <div data-mdb-input-init class="form-outline select-box">
+                    <input min="-200" max="800" value="200" type="number" id="oppELO" class="form-control" placeholder="200" />
+                </div>
+                <button type="button" class="btn btn-primary vis" id="performanceSimulatorButton">Go!</button>
+            </div>
+            <div class="row">
+                <div id="performanceSimulator" class="vis"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-2"></div>
+</div>
+
+
+<hr>
+
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <div class="section5">
+            <h3>Aff/Neg Splits at Tournaments</h3>
+            <div id="affNegSplits" class="vis"></div>
+        </div>
+    </div>
+    <div class="col-2"></div>
+</div>
+
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <div class="section6">
+            <div class="minTournament">
+                <h2>Filter by Minimum Tournaments Attended</h2>
+                <p>Adjust the slider to filter competitors based on the minimum number of tournaments attended.</p>
+                <input type="range" id="mySlider" min="0" max="10" value="5" class="form-range">
+                <p>Minimum Tournaments: <span id="sliderValue">5</span></p>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <h3>Average ELO vs. Average # of Wins</h3>
+                    <div id="winsELOs" class="vis"></div>
+                </div>
+
+                <div class="col-6">
+                    <h3>How ELo Changes Throughout Tournament Season</h3>
+                    <div id="eloChange" class="vis"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-2"></div>
 </div>
 
 <hr>
 
 <div class="row">
-    <h2>Why is this Happening?</h2>
+    <div class="col-2"></div>
+    <div class="col-8">
+        <div class="section7">
+            <h2>Why is this Happening?</h2>
+            <h2>There is a gap in competitive performance because of the unequal amount of resources that are offered to private school students.</h2>
+
+        </div>
+    </div>
+    <div class="col-2"></div>
 </div>
-<h2>There is a gap in competitive performance because of the unequal amount of resources that are offered to private school students.</h2>
+
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <div class="section8">
+            <h2>Why does funding matter?</h2>
+            <h2>Funding allows for a litany of exclusive opportunities including access to more tournaments, private coaching, etc. </h2>
+
+        </div>
+    </div>
+    <div class="col-2"></div>
+</div>
+
 
 <hr>
 
-<div class="row">
-    <h2>Why does funding matter?</h2>
-</div>
-<h2>Funding allows for a litany of exclusive opportunities including access to more tournaments, private coaching, etc. </h2>
-
-<hr>
 
 <div class="row">
-    <h2>Funding affecting tournament attendance</h2>
+    <div class="col-2"></div>
+    <div class="col-8">
+        <div class="section9">
+            <h2>Funding affecting tournament attendance</h2>
+        </div>
+    </div>
+    <div class="col-2"></div>
 </div>
 
 <hr>

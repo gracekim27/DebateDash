@@ -87,11 +87,11 @@ class WinsELO {
             .attr("transform", `translate(0,${vis.height})`)
             .call(d3.axisBottom(vis.xScale))
             .selectAll("text")
-            .style("fill", "white");
+            .style("fill", "black");
 
         vis.chartGroup.select(".x-axis")
             .selectAll("path, line")
-            .style("stroke", "white");
+            .style("stroke", "black");
 
         // Add x-axis label
         vis.chartGroup.append("text")
@@ -99,7 +99,7 @@ class WinsELO {
             .attr("y", vis.height + vis.margin.bottom / 2)
             .attr("text-anchor", "middle")
             .style("font-size", "10px")
-            .style("fill", "white")
+            .style("fill", "black")
             .style("font-family", "Arial")
             .text("ELO at Season End");
 
@@ -109,11 +109,11 @@ class WinsELO {
             .call(d3.axisLeft(vis.yScale))
             .selectAll("text")
             .style("font-family", "Arial")
-            .style("fill", "white");
+            .style("fill", "black");
 
         vis.chartGroup.select(".y-axis")
             .selectAll("path, line")
-            .style("stroke", "white");
+            .style("stroke", "black");
 
         // Add y-axis label
         vis.chartGroup.append("text")
@@ -122,7 +122,7 @@ class WinsELO {
             .attr("transform", "rotate(-90)")
             .attr("text-anchor", "middle")
             .style("font-size", "10px")
-            .style("fill", "white")
+            .style("fill", "black")
             .style("font-family", "Arial")
             .text("Average Wins Across Tournaments");
     }
