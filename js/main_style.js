@@ -1,6 +1,6 @@
 const navigationDots = document.querySelectorAll('.navigation_dots li');
 const welcome = document.querySelector('.container_welcome');
-const sections = document.querySelectorAll('.section1, .section2, .section3, .section4, .section5, .section6, .section7, .section8, .section9');
+const sections = document.querySelectorAll('.section1, .section2, .section3, .section4, .section5, .section6, .section7, .section8, .section9, .section10');
 const totalHeight = document.documentElement.scrollHeight;
 
 // Reset the navigation dots on each scroll
@@ -36,7 +36,7 @@ window.addEventListener('scroll', function(){
 navigationDots.forEach((dot, index) => {
     dot.addEventListener('click', function() {
         let targetTop;
-        const buffer = 50; // Distance from the top of the section to the top of the window
+        const buffer = 100; // Distance from the top of the section to the top of the window
 
         if (index === 0) { // If it's the first dot, scroll to the welcome section
             targetTop = welcome.offsetTop - buffer;
