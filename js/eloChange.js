@@ -14,9 +14,9 @@ class EloChange {
         let vis = this;
 
         // Define margins and dimensions based on the parent element's size
-        vis.margin = { top: 60, right: 10, bottom: 80, left: 50 };
-        vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 2) - vis.margin.left - vis.margin.right;
-        vis.height = 500;
+        vis.margin = {top: 60, right: 50, bottom: 100, left: 50};
+        vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width ) - vis.margin.left - vis.margin.right;
+        vis.height = 400;
 
         // SVG drawing area
         vis.svg = d3.select(`#${vis.parentElement}`)
@@ -149,7 +149,9 @@ class EloChange {
             .attr("transform", `translate(0,${vis.height})`)
             .call(d3.axisBottom(vis.xScale))
             .selectAll("text")
-            .style("fill", "white");
+            .style("fill", "white")
+            .style("transform", `rotate(-15deg)`)
+            .style("transform", 'translate(0,-50)');
 
         vis.chartGroup.select(".x-axis")
             .selectAll("path, line")
@@ -160,7 +162,7 @@ class EloChange {
             .attr("x", vis.width / 2)
             .attr("y", vis.height + vis.margin.bottom / 2)
             .attr("text-anchor", "middle")
-            .style("font-size", "14px")
+            .style("font-size", "10px")
             .style("fill", "white")
             .style("font-family", "Arial")
             .text("Tournaments");
@@ -182,7 +184,7 @@ class EloChange {
             .attr("y", -vis.margin.left / 1.5)
             .attr("transform", "rotate(-90)")
             .attr("text-anchor", "middle")
-            .style("font-size", "14px")
+            .style("font-size", "10px")
             .style("font-family", "Arial")
             .style("fill", "white")
             .text("ELO Rating");

@@ -13,7 +13,7 @@ class AffNegSplits {
         // Define margins and dimensions
         vis.margin = { top: 60, right: 150, bottom: 120, left: 50 }; // Increased right margin for the text area
         vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 2 + 10) - vis.margin.left - vis.margin.right;
-        vis.height = 300
+        vis.height = 500;
 
         // SVG drawing area
         vis.svg = d3.select(`#${vis.parentElement}`)
