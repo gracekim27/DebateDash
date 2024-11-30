@@ -31,7 +31,7 @@ class FirstBar {
             .attr("y", -vis.margin.top / 2 + 20)
             .attr("text-anchor", "middle")
             .style("font-size", "18px")
-            .style("fill", "white")
+            .style("fill", "black")
             .style("font-family", "Arial")
             .text("Average ELO by Group and Gender");
 
@@ -57,7 +57,7 @@ class FirstBar {
             .attr("x", 0)
             .attr("y", 0)
             .text("Other averages")
-            .style("fill", "white")
+            .style("fill", "black")
             .style("font-size", "16px")
             .style("font-weight", "bold");
 
@@ -153,11 +153,11 @@ class FirstBar {
                 .attr("transform", `translate(0,${vis.height})`)
                 .call(d3.axisBottom(vis.xScale))
                 .selectAll("text")
-                .style("fill", "white");
+                .style("fill", "black");
 
             vis.svg.select(".x-axis")
                 .selectAll("path, line")
-                .style("stroke", "white");
+                .style("stroke", "black");
         } else {
             vis.svg.select(".x-axis").call(d3.axisBottom(vis.xScale));
         }
@@ -168,11 +168,11 @@ class FirstBar {
                 .attr("class", "y-axis")
                 .call(d3.axisLeft(vis.yScale))
                 .selectAll("text")
-                .style("fill", "white");
+                .style("fill", "black");
 
             vis.svg.select(".y-axis")
                 .selectAll("path, line")
-                .style("stroke", "white");
+                .style("stroke", "black");
         } else {
             vis.svg.select(".y-axis").call(d3.axisLeft(vis.yScale));
         }
@@ -192,7 +192,7 @@ class FirstBar {
             .attr("x", 0)
             .attr("y", 20)
             .text(`All Private: ${vis.overallAverages.private?.toFixed(2) || "N/A"}`)
-            .style("fill", "white")
+            .style("fill", "black")
             .style("font-size", "16px")
             .style("font-weight", "600");
 
@@ -201,7 +201,7 @@ class FirstBar {
             .attr("x", 0)
             .attr("y", 40)
             .text(`All Public: ${vis.overallAverages.public?.toFixed(2) || "N/A"}`)
-            .style("fill", "white")
+            .style("fill", "black")
             .style("font-size", "16px")
             .style("font-weight", "200");
 
@@ -210,7 +210,7 @@ class FirstBar {
             .attr("x", 0)
             .attr("y", 60)
             .text(`All Boys: ${vis.overallAverages.boys?.toFixed(2) || "N/A"}`)
-            .style("fill", "white")
+            .style("fill", "black")
             .style("font-size", "16px")
             .style("font-weight", "600");
 
@@ -219,7 +219,7 @@ class FirstBar {
             .attr("x", 0)
             .attr("y", 80)
             .text(`All Girls: ${vis.overallAverages.girls?.toFixed(2) || "N/A"}`)
-            .style("fill", "white")
+            .style("fill", "black")
             .style("font-size", "16px")
             .style("font-weight", "200");
 

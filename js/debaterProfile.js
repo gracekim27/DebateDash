@@ -13,8 +13,8 @@ class DebaterProfile {
 
         // Define margins and dimensions based on the parent element's size
         vis.margin = {top: 60, right: 20, bottom: 10, left: 50}; // Increased top margin for title
-        vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 3) - vis.margin.left - vis.margin.right;
-        vis.height = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 3) - vis.margin.top - vis.margin.bottom;
+        vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 2) - vis.margin.left - vis.margin.right;
+        vis.height = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 2) - vis.margin.top - vis.margin.bottom;
 
         // SVG drawing area
         vis.svg = d3.select(`#${vis.parentElement}`)
@@ -59,7 +59,7 @@ class DebaterProfile {
             .attr("text-anchor", "middle")
             .attr("font-size", "25px")
             .style("font-family", "Arial")
-            .style("fill", "white")
+            .style("fill", "black")
             .style("font-weight", "1000")
             .text(`${vis.avgWins.toFixed(1)}`);
         vis.svg.append("text")
@@ -69,7 +69,7 @@ class DebaterProfile {
             .attr("font-size", "15px")
             .style("font-family", "Arial")
             .style("font-weight", "200")
-            .style("fill", "white")
+            .style("fill", "black")
             .text(`Average Wins/Tournament`);
 
         // Display Average ELO
@@ -79,7 +79,7 @@ class DebaterProfile {
             .attr("text-anchor", "middle")
             .attr("font-size", "25px")
             .style("font-family", "Arial")
-            .style("fill", "white")
+            .style("fill", "black")
             .style("font-weight", "1000")
             .text(`${vis.avgELO.toFixed(1)}`);
         vis.svg.append("text")
@@ -89,7 +89,7 @@ class DebaterProfile {
             .attr("font-size", "15px")
             .style("font-family", "Arial")
             .style("font-weight", "200")
-            .style("fill", "white")
+            .style("fill", "black")
             .text(`Average ELO`);
 
         vis.svg.append("image")
@@ -108,7 +108,7 @@ class DebaterProfile {
             .attr("text-anchor", "middle")
             .attr("font-size", "20px")
             .style("font-family", "Arial")
-            .style("fill", "white")
+            .style("fill", "black")
             .style("font-weight", "bold")
             .text("Male");
     }

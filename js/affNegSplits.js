@@ -12,8 +12,8 @@ class AffNegSplits {
 
         // Define margins and dimensions
         vis.margin = { top: 60, right: 150, bottom: 120, left: 50 }; // Increased right margin for the text area
-        vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 3 + 10) - vis.margin.left - vis.margin.right;
-        vis.height = 500;
+        vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 2 + 10) - vis.margin.left - vis.margin.right;
+        vis.height = 300
 
         // SVG drawing area
         vis.svg = d3.select(`#${vis.parentElement}`)
@@ -42,7 +42,7 @@ class AffNegSplits {
             .attr("height", 200)
             .attr("rx", 10) // Rounded corners
             .style("fill", "#333") // Dark background
-            .style("stroke", "white")
+            .style("stroke", "black")
             .style("stroke-width", 1);
 
         vis.motionDetails
@@ -125,7 +125,7 @@ class AffNegSplits {
                     .attr("y", -vis.radius - 10)
                     .attr("text-anchor", "middle")
                     .attr("font-size", "12px")
-                    .style("fill", "white")
+                    .style("fill", "black")
                     .style("font-family", "Arial")
                     .text(d.Tournament);
 
@@ -177,7 +177,7 @@ class AffNegSplits {
                 .attr("y", 0)
                 .attr("text-anchor", "middle")
                 .attr("font-size", "14px")
-                .style("fill", "black")
+                .style("fill", "white")
                 .style("font-family", "Arial")
                 .text(topic.title);
 
@@ -191,7 +191,7 @@ class AffNegSplits {
                 .attr("width", textBBox.width + 10)
                 .attr("height", textBBox.height + 10)
                 .attr("rx", 7)
-                .style("fill", "white")
+                .style("fill", "black")
                 .style("stroke", "lightgray")
                 .style("stroke-width", 1.5);
         });

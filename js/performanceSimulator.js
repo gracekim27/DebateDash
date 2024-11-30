@@ -12,7 +12,7 @@ class PerformanceSimulator {
 
         // Define margins and dimensions based on the parent element's size
         vis.margin = {top: 60, right: 20, bottom: 10, left: 50}; // Increased top margin for title
-        vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 3) - vis.margin.left - vis.margin.right;
+        vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 2) - vis.margin.left - vis.margin.right;
         vis.height = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 3) - vis.margin.top - vis.margin.bottom;
 
         // SVG drawing area
@@ -98,16 +98,16 @@ class PerformanceSimulator {
             .text("WIN: \n" + percentageWin + "%")
             .attr("x",  vis.width / 2 + 120)
             .attr("y", 50)
-            .attr("font-size", "24px")
-            .attr("fill", "#ffffff")
+            .attr("font-size", "18px")
+            .attr("fill", "black")
 
         vis.svg.append("text")
             .text("LOSE: \n" + percentageLose + "%")
             .attr("text-anchor", "end")
             .attr("x",  vis.width / 2 - 120)
             .attr("y", 50)
-            .attr("font-size", "24px")
-            .attr("fill", "#ffffff")
+            .attr("font-size", "18px")
+            .attr("fill", "black")
     }
 
 
