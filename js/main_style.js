@@ -36,7 +36,7 @@ window.addEventListener('scroll', function(){
 navigationDots.forEach((dot, index) => {
     dot.addEventListener('click', function() {
         let targetTop;
-        const buffer = 100; // Distance from the top of the section to the top of the window
+        const buffer = 40; // Distance from the top of the section to the top of the window
 
         if (index === 0) { // If it's the first dot, scroll to the welcome section
             targetTop = welcome.offsetTop - buffer;

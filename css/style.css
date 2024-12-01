@@ -44,6 +44,7 @@ body{
     background-color: #E5DEC6; /* Base color (pink) */
 }
 
+
 h1{
     position: absolute;
     top: 50%;
@@ -55,11 +56,75 @@ h1{
     transform: translate(-72%, -50%);
 }
 
+
 .bangers-regular {
     font-family: "Bangers", system-ui;
     font-weight: 400;
     font-style: normal;
+    display: flex;
+    justify-content: center;
 }
+
+
+.d, .r, .o, .p, .s {
+    opacity: 0;
+    animation: drop 0.4s linear forwards;
+    display: inline-block;
+}
+
+.d:hover, .r:hover, .o:hover, .p:hover, .s:hover {
+    animation: none; /* Temporarily disable animation */
+}
+
+.d:hover::before, .r:hover::before, .o:hover::before, .p:hover::before, .s:hover::before {
+    content: '';
+    animation: drop 0.4s linear forwards; /* Replay the animation */
+}
+
+.d {
+    animation-delay: 0s;
+    color: #00ffff;
+}
+.r {
+    animation-delay: 0.2s;
+    color: #99ffff;
+}
+.o {
+    animation-delay: 0.4s;
+    color: #ccffff;
+}
+.p {
+    animation-delay: 0.6s;
+    color: #ffffff;
+}
+.s {
+    animation-delay: 0.8s;
+    color: #ff69b4;
+}
+
+@keyframes drop {
+    0% {
+        transform: translateY(-200px);
+        opacity: 0;
+    }
+    50% {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+    65% {
+        transform: translateY(-17px);
+        opacity: 1;
+    }
+    75% {
+        transform: translateY(-22px);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
 
 
 h2{
@@ -214,7 +279,7 @@ hr {
     width: 100%;
     background-color: #74C7BD;
     border: solid 3px black;
-    margin: auto; /* Horizontally center the section */
+    margin: 2em auto 2em auto;
     justify-content: center; /* Horizontal centering */
     padding: 2em;
     background: radial-gradient(circle, rgba(0, 0, 0, 0.1) 30%, rgba(0, 0, 0, 0) 00%);
@@ -228,7 +293,7 @@ hr {
     width: 100%;
     background-color: #ff69b4; /* Base color (pink) */
     border: solid 3px black;
-    margin: auto; /* Horizontally center the section */
+    margin: 2em auto 2em auto;
     justify-content: center; /* Horizontal centering */
     padding: 1em;
     background: radial-gradient(circle, rgba(0, 0, 0, 0.1) 30%, rgba(0, 0, 0, 0) 00%);
@@ -242,12 +307,9 @@ hr {
     width: 80%;
     border: solid 3px black;
     background-color:#FE1D87;
-    margin-left: auto; /* Horizontally center the section */
-    margin-right: auto; /* Horizontally center the section */
+    margin: 2em auto 2em auto;
     justify-content: center; /* Horizontal centering */
     background: radial-gradient(circle, rgba(0, 0, 0, 0.1) 30%, rgba(0, 0, 0, 0.2) 10%);
     background-size: 5px 5px; /* Adjust dot size and spacing */
     background-color: #FE1D87; /* Base color (pink) */
-    margin-top: 3em;
-    margin-bottom: 4em;
 }
