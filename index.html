@@ -55,41 +55,57 @@
                     </h1>
                 </div>
             </div>
-            <img src="img/debateDash.png" alt="Man Pointing" class="shake" id="manPointing" style="width: 20em;height:auto;">
+            <img src="img/debateDash.png" alt="Man Pointing" class="shake" id="manPointing" style="width: 30em;height:auto;">
         </div>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-2"></div>
-        <div class="col-9">
+    <div class="col-3">
+        <img src="img/scalesJustice.png" alt="scales" class="shake" style="position: absolute; width: 25em;height:auto; padding-left:1em; left: 2em; z-index: 1;">
+    </div>
+        <div class="col-8">
             <div class="section1">
-                <h6>
-                    Why debate?
-                </h6>
                 <p>
-                    Debate is more than just an academic competition; it fosters critical thinking, public speaking, and persuasive argumentation. However, disparities in resources, judging biases, and access to opportunities often impact competitive outcomes. By visualizing tournament data, we aim to shed light on these issues and highlight areas for improvement.
+                    We investigated the debate performance of students in the
+                    major debate tournaments across the US.
                 </p>
 
-                <h6>What Data?</h6>
                 <p>
-                    Our analysis focuses on Lincoln-Douglas Debate results from the 2023-2024 competitive season. We aggregate data from both preliminary and elimination rounds of triple-octa final bid tournaments. These tournaments represent the largest and most competitive events, ensuring consistency in difficulty levels across the dataset.
+                    We controlled for gender and whether students went to a private school or public school, and calculated students’ Elo scores. Elo scores are a measure of how well someone performs. </p>
+                <p>
+                    Ultimately, we found that <strong>male students from private schools</strong> perform the best in high school debates.
+                </p>
+
+                <p>
+                    But to understand this difference in performance, we have to understand the Elo metric, and what it actually measures.
                 </p>
                 <p>
-                    To analyze disparities, we use the Python library <a href="https://pypi.org/project/gender-guesser/">gender-guesser</a> to infer participant genders based on first names. We include only those predictions with high certainty to ensure accuracy. Additionally, we calculate Elo scores for debaters using a base Elo of 200, round multipliers for elimination rounds to account for their increasing importance, and a learning constant of K = 100. The round multipliers are:
+                    A player’s Elo increases when they win and decreases when they lose. In our model, a student starts with an Elo of 200.
                 </p>
-                <ul>
-                    <li>Prelim: 1.0</li>
-                    <li>Quads: 1.1</li>
-                    <li>Trips: 1.2</li>
-                    <li>Dubs: 1.4</li>
-                    <li>Octos: 1.6</li>
-                    <li>Quarters: 1.8</li>
-                    <li>Semis: 2.0</li>
-                </ul>
+
+                <div class="elo-container">
+                    <!-- Win Section -->
+                    <div class="elo-change win">
+                        <div>Win</div>
+                        <div class="elo-number" id="win-number">200</div>
+                    </div>
+
+                    <!-- Lose Section -->
+                    <div class="elo-change lose">
+                        <div>Lose</div>
+                        <div class="elo-number" id="lose-number">200</div>
+                    </div>
+                </div>
+
+
                 <p>
-                    These adjustments ensure that our analysis accurately reflects the significance of performance in each stage of competition. Let's begin our analysis by looking at overall trends in debate. We can start by looking at an average debater profile.
+                    There are 8 major debate tournaments in the US. There are hundreds of competitors in each of them.
                 </p>
+                <p>
+                    First, it’s worth noting what the average profile of a debater in the US looks like.
+                </p>
+
 
             </div>
         </div>
@@ -267,6 +283,7 @@
 <script src="js/main_style.js"></script>
 <script src="js/firstBar.js"></script>
 <script src="js/debaterProfile.js"></script>
+<script src="js/eloVis.js"></script>
 
 <script src="js/affNegSplits.js"></script>
 <script src="js/winsELO.js"></script>

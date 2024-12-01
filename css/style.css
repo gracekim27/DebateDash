@@ -7,8 +7,8 @@
 
 
 #manPointing{
-    padding-right: 1em;
-    padding-top: 15em;
+    padding-right: 2em;
+    padding-top: 10em;
 }
 
 /* Image Shake */
@@ -34,8 +34,34 @@
     100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 
+/* ELO Styles */
+.elo-container {
+    display: flex;
+    justify-content: center;
+    gap: 50px; /* Space between Win and Lose sections */
+    margin-top: 20px;
+}
 
+.elo-change {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+}
 
+.win {
+    color: green;
+}
+
+.lose {
+    color: red;
+}
+
+.elo-number {
+    font-size: 48px;
+    font-weight: bold;
+}
 
 body{
     background: #E5DEC6;
