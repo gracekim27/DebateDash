@@ -61,6 +61,13 @@
 </div>
 
 <div class="row">
+    <div class="col-12">
+    <p style="text-align: center; font-size: 24px"><b>Are there disparities in high school debate across gender & schooling?</b></p>
+    </div>
+</div>
+
+<div class="row">
+
     <div class="col-3">
         <img src="img/scalesJustice.png" alt="scales" class="shake" style="position: absolute; width: 25em;height:auto; padding-left:1em; left: 2em; z-index: 1;">
     </div>
@@ -246,7 +253,7 @@
         <div class="section7">
             <h2>Why is this Happening?</h2>
             <h2>There is a gap in competitive performance because of the unequal amount of resources that are offered to private school students.</h2>
-
+            <div id="mapDiv" style="height: 100%; width:100%; border: thin solid grey; border-radius: 5px; background: rgba(64,64,64,0.4);"></div>
         </div>
     </div>
     <div class="col-2"></div>
@@ -288,10 +295,17 @@
 <!-- d3 -->
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://d3js.org/topojson.v2.min.js"></script>
+<script src="https://d3js.org/d3-geo.v1.min.js"></script>
+
+<script src="js/helpers.js"></script>
 <script src="js/main_style.js"></script>
 <script src="js/firstBar.js"></script>
 <script src="js/debaterProfile.js"></script>
 <script src="js/eloVis.js"></script>
+<script src="js/mapVis.js"></script>
+
 
 <script src="js/affNegSplits.js"></script>
 <script src="js/winsELO.js"></script>
