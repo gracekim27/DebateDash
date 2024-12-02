@@ -13,7 +13,7 @@ class WinsELO {
         // Define margins and dimensions based on the parent element's size
         vis.margin = {top: 60, right: 50, bottom: 100, left: 50};
         vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width ) - vis.margin.left - vis.margin.right;
-        vis.height = 400;
+        vis.height = 500;
 
         // SVG drawing area
         vis.svg = d3.select(`#${vis.parentElement}`)

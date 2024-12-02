@@ -14,6 +14,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+
 </head>
 <body>
 
@@ -62,7 +64,7 @@
 
 <div class="row">
     <div class="col-12">
-    <p style="text-align: center; font-size: 24px"><b>Are there disparities in high school debate across gender & schooling?</b></p>
+        <p style="text-align: center; font-size: 24px"><b>Are there disparities in high school debate across gender & schooling?</b></p>
     </div>
 </div>
 
@@ -73,16 +75,26 @@
     </div>
         <div class="col-8">
             <div class="section1">
-                <p>
-                    We investigated the debate performance of students in the
-                    major debate tournaments across the US.
-                </p>
+                <div class="row">
+                    <div class="col-7">
+                        <p>
+                            We investigated the debate performance of students in the
+                            major debate tournaments across the US.
+                        </p>
 
-                <p>
-                    We controlled for gender and whether students went to a private school or public school, and calculated students’ Elo scores. Elo scores are a measure of how well someone performs. </p>
-                <p>
-                    Ultimately, we found that <strong>male students from private schools</strong> perform the best in high school debates.
-                </p>
+                        <p>
+                            We controlled for gender and whether students went to a private school or public school, and calculated students’ Elo scores. Elo scores are a measure of how well someone performs. </p>
+                        <p>
+                            Ultimately, we found that <strong>male students from private schools</strong> perform the best in high school debates.
+                        </p>
+                    </div>
+                    <div class="col-1"></div>
+                    <div class="col-4">
+                        <img src="img/magnifyingGlass.png" alt="scales" style="position: absolute; width: 17em; height:auto; top: 0; left: 40vw; z-index: 1;">
+                    </div>
+
+                </div>
+
 
                 <hr>
 
@@ -92,20 +104,20 @@
                     But to understand this difference in performance, we have to understand the Elo metric, and what it actually measures.
                 </p>
                 <p>
-                    A player’s Elo increases when they win and decreases when they lose. In our model, a student starts with an Elo of 200.
+                    A player’s Elo increases when they win and decreases when they lose. In our model, a student starts with an Elo of 400.
                 </p>
 
                 <div class="elo-container">
                     <!-- Win Section -->
                     <div class="elo-change win">
                         <div>Win</div>
-                        <div class="elo-number" id="win-number">200</div>
+                        <div class="elo-number" id="win-number">400</div>
                     </div>
 
                     <!-- Lose Section -->
                     <div class="elo-change lose">
                         <div>Lose</div>
-                        <div class="elo-number" id="lose-number">200</div>
+                        <div class="elo-number" id="lose-number">400</div>
 
                     </div>
                 </div>
@@ -130,13 +142,14 @@
 
 
 <div class="row">
-    <div class="col-1"></div>
+    <div class="col-1" style="min-height: 300px; position: relative;">
+    </div>
     <div class="col-10">
         <div class="section2">
-            <h2>Average Debater Profile</h2>
-            <div id="debaterProfile" class="vis">
+            <h2 class="bangers-h2">Average Debater Profile</h2>
+            <div id="debaterProfile" class="vis"></div>
             <p>
-                This profile shows that the average debater is male, wins about 3 rounds per tournament, and has an Elo of ~200. Now, imagine breaking this into groups—how might the average Elo differ by gender or school type?
+                This profile shows that the average debater is <strong>male</strong>, wins about <strong>3</strong> rounds per tournament, and has an Elo of <strong>~400</strong>. Now, imagine breaking this into groups—how might the average Elo differ by gender or school type?
             </p>
         </div>
     </div>
@@ -148,7 +161,7 @@
     <div class="col-2"></div>
     <div class="col-8">
         <div class="section3">
-            <h2>There is a gap in competitive performance across gender and across public/private schools.</h2>
+            <h2 class="bangers-h2">ELO Showdown</h2>
             <div id="firstBar" class="vis"></div>
         </div>
     </div>
@@ -158,11 +171,13 @@
 
 
 <div class="row">
-    <div class="col-1"></div>
+    <div class="col-1" style="min-height: 300px; position: relative;">
+        <img src="img/tealGavel.png" alt="gavel" class="gavel" style="position: absolute; width: 20em; height: auto; padding-left: 1em; left: 3em; top: 30%; z-index: 1;">
+    </div>
     <div class="col-10">
         <div class="section4">
             <div class="row">
-                <h2>Want to simulate how you might perform in a debate? Pick your characteristics and simulate your performance!</h2>
+                <h2 class="bangers-h2">Choose your traits and see your chances!</h2>
             </div>
             <div class="select-container vis">
                 <p><b>You: </b></p>
@@ -178,7 +193,7 @@
                 </select>
                 <p><b>ELO: </b></p>
                 <div data-mdb-input-init class="form-outline select-box">
-                    <input min="-200" max="800" value="200" type="number" id="youELO" class="form-control" placeholder="200" />
+                    <input min="-400" max="1000" value="400" type="number" id="youELO" class="form-control" placeholder="400" />
                 </div>
             </div>
             <div class="select-container vis">
@@ -195,7 +210,7 @@
                 </select>
                 <p><b>ELO: </b></p>
                 <div data-mdb-input-init class="form-outline select-box">
-                    <input min="-200" max="800" value="200" type="number" id="oppELO" class="form-control" placeholder="200" />
+                    <input min="-400" max="1000" value="400" type="number" id="oppELO" class="form-control" placeholder="400" />
                 </div>
                 <button type="button" class="btn btn-primary vis" id="performanceSimulatorButton">Go!</button>
             </div>
@@ -210,10 +225,13 @@
 
 
 <div class="row">
-    <div class="col-2"></div>
+    <div class="col-2" style="min-height: 300px; position: relative;">
+        <img src="img/pinkSpeechBubble.png" alt="scales" class="shake" style="position: absolute; width: 25em;height:auto; padding-left:1em; left: 2em; z-index: 1;">
+        <img src="img/pinkSpeechBubble.png" alt="scales" class="rotated">
+    </div>
     <div class="col-10">
         <div class="section5">
-            <h3>Aff/Neg Splits at Tournaments</h3>
+            <h2 class="bangers-h2">Aff/Neg Splits at Tournaments</h2>
             <div id="affNegSplits" class="vis"></div>
         </div>
     </div>

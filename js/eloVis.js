@@ -1,4 +1,4 @@
-let baseElo = 200; // Starting Elo
+let baseElo = 400; // Starting Elo
 let winElo, loseElo; // Variables to hold current Elo values
 const winNumberElement = document.getElementById('win-number');
 const loseNumberElement = document.getElementById('lose-number');
