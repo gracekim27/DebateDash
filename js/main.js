@@ -50,23 +50,17 @@ function setupSlider() {
     const sliderValue = document.getElementById("sliderValue");
 
     slider.addEventListener("input", function () {
-        const minTournaments = +slider.value; // Get the slider value
-        sliderValue.textContent = minTournaments; // Update slider display
+        const minTournaments = +slider.value;
+        sliderValue.textContent = minTournaments;
 
-        // Debugging: log slider value
-        console.log("Slider value (minTournaments):", minTournaments);
-
-        // Update `minTournaments` and re-filter data
         eloChange.minTournaments = minTournaments;
-
-        // Debugging: log before calling wrangleData
-        console.log("Updating EloChange with minTournaments:", eloChange.minTournaments);
-
         eloChange.wrangleData();
+
+        winsELOs.minTournaments = minTournaments; // Update WinsELO filter
+        winsELOs.wrangleData(); // Refresh WinsELO chart
     });
-
-
 }
+
 
 function categoryChange() {
     firstBar.wrangleData();

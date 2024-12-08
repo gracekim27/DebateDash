@@ -14,7 +14,7 @@ class EloChange {
         let vis = this;
 
         // Define margins and dimensions based on the parent element's size
-        vis.margin = {top: 60, right: 50, bottom: 100, left: 50};
+        vis.margin = {top: 20, right: 50, bottom: 75, left: 50};
         vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width ) - vis.margin.left - vis.margin.right;
         vis.height = 400;
 
@@ -46,16 +46,21 @@ class EloChange {
 
         // Process data for each competitor
         vis.competitorData = groupedData.map(([competitor, records]) => {
-            let gender = records[0].Gender;
+            let gender = records[0]?.Gender || "unknown"; // Handle missing gender
 
-            // Order records and filter for relevant tournaments
+            // Filter records for relevant tournaments and valid Elo values
+            let validRecords = records.filter(d => {
+                return vis.tournamentOrder.includes(d.Tournament) && !isNaN(d.Wins);
+            });
+
+            // Map valid records to ordered structure
             let orderedRecords = vis.tournamentOrder.map(tournament => {
-                let record = records.find(d => d.Tournament === tournament);
+                let record = validRecords.find(d => d.Tournament === tournament);
                 return {
                     Tournament: tournament,
                     Elo: record ? +record.Elo : null
                 };
-            }).filter(d => d.Elo !== null);
+            }).filter(d => d.Elo !== null); // Remove tournaments without valid Elo
 
             // Count the number of tournaments attended
             let tournamentsAttended = orderedRecords.length;
@@ -71,9 +76,6 @@ class EloChange {
             };
         }).filter(d => d.tournamentsAttended >= vis.minTournaments); // Apply the filter
 
-        // Debugging: log filtered data
-        console.log("Filtered Competitor Data for EloChange:", vis.competitorData);
-
         vis.updateVis();
     }
 
@@ -81,12 +83,17 @@ class EloChange {
     updateVis() {
         let vis = this;
 
-        // Clear previous elements
-        vis.chartGroup.selectAll("*").remove();
+        // Clear previous elements (only for axes and labels)
+        vis.chartGroup.selectAll(".x-axis").remove();
+        vis.chartGroup.selectAll(".y-axis").remove();
+        vis.chartGroup.selectAll(".x-axis-label").remove();
+        vis.chartGroup.selectAll(".y-axis-label").remove();
 
         // Check if there is any data to visualize
         if (vis.competitorData.length === 0) {
+            vis.chartGroup.selectAll("*").remove(); // Clear existing no-data text
             vis.chartGroup.append("text")
+                .attr("class", "no-data-text")
                 .attr("x", vis.width / 2)
                 .attr("y", vis.height / 2)
                 .attr("text-anchor", "middle")
@@ -95,6 +102,9 @@ class EloChange {
                 .text("No data available for the selected filter.");
             return;
         }
+
+        // Remove no-data text if data is available
+        vis.chartGroup.selectAll(".no-data-text").remove();
 
         // Define scales
         vis.xScale = d3.scalePoint()
@@ -114,22 +124,42 @@ class EloChange {
             .x(d => vis.xScale(d.Tournament))
             .y(d => vis.yScale(d.Elo));
 
-        // Draw lines for each competitor
-        vis.chartGroup.selectAll(".line")
-            .data(vis.competitorData)
-            .enter()
+        // Bind data to lines
+        const lines = vis.chartGroup.selectAll(".line")
+            .data(vis.competitorData, d => d.competitor);
+
+        // ENTER: Add new lines
+        lines.enter()
             .append("path")
             .attr("class", "line")
             .attr("fill", "none")
-            .attr("stroke", d => d.gender === 'boy' ? "steelblue" : "pink") // Set color based on gender
+            .attr("stroke", d => d.gender === 'boy' ? "#233165" : "#E9A7A4") // Set color based on gender
             .attr("stroke-width", 1.5)
             .attr("d", d => line(d.records))
-            .attr("opacity", 0.5);
+            .attr("opacity", 0) // Start with opacity 0
+            .transition()
+            .duration(1000)
+            .attr("opacity", 0.5); // Transition to final opacity
 
-        // Draw circles at each data point
-        vis.chartGroup.selectAll(".dot-group")
-            .data(vis.competitorData)
-            .enter()
+        // UPDATE: Update existing lines
+        lines.transition()
+            .duration(1000)
+            .attr("d", d => line(d.records)) // Update line path
+            .attr("stroke", d => d.gender === 'boy' ? "#233165" : "#E9A7A4");
+
+        // EXIT: Remove old lines
+        lines.exit()
+            .transition()
+            .duration(500)
+            .attr("opacity", 0) // Fade out
+            .remove();
+
+        // Bind data to dots
+        const dots = vis.chartGroup.selectAll(".dot-group")
+            .data(vis.competitorData, d => d.competitor);
+
+        // ENTER: Add dot groups for new competitors
+        const dotEnter = dots.enter()
             .append("g")
             .attr("class", "dot-group")
             .selectAll(".dot")
@@ -138,10 +168,31 @@ class EloChange {
             .append("circle")
             .attr("class", "dot")
             .attr("cx", d => vis.xScale(d.Tournament))
-            .attr("cy", d => vis.yScale(d.Elo))
+            .attr("cy", vis.height) // Start at the bottom
             .attr("r", 3)
-            .attr("fill", (d, i, nodes) => d3.select(nodes[i].parentNode).datum().gender === 'boy' ? "steelblue" : "pink")
-            .attr("opacity", 0.5); // Match dot color to line
+            .attr("fill", (d, i, nodes) => d3.select(nodes[i].parentNode).datum().gender === 'boy' ? "#233165" : "#E9A7A4")
+            .attr("opacity", 0)
+            .transition()
+            .duration(1000)
+            .attr("cy", d => vis.yScale(d.Elo)) // Transition to final position
+            .attr("opacity", 0.5);
+
+        // UPDATE: Update existing dots
+        dots.selectAll(".dot")
+            .data(d => d.records)
+            .transition()
+            .duration(1000)
+            .attr("cx", d => vis.xScale(d.Tournament))
+            .attr("cy", d => vis.yScale(d.Elo))
+            .attr("fill", (d, i, nodes) => d3.select(nodes[i].parentNode).datum().gender === 'boy' ? "#233165" : "#E9A7A4");
+
+        // EXIT: Remove old dots
+        dots.exit()
+            .selectAll(".dot")
+            .transition()
+            .duration(500)
+            .attr("opacity", 0) // Fade out
+            .remove();
 
         // Add x-axis
         vis.chartGroup.append("g")
@@ -151,42 +202,37 @@ class EloChange {
             .selectAll("text")
             .style("fill", "black")
             .style("transform", `rotate(-15deg)`)
-            .style("transform", 'translate(0,-50)');
-
-        vis.chartGroup.select(".x-axis")
-            .selectAll("path, line")
-            .style("stroke", "black");
+            .style("transform", 'translate(0,-50)')
+            .style("font-family", "Oswald");
 
         // Add x-axis label
         vis.chartGroup.append("text")
+            .attr("class", "x-axis-label")
             .attr("x", vis.width / 2)
             .attr("y", vis.height + vis.margin.bottom / 2)
             .attr("text-anchor", "middle")
-            .style("font-size", "10px")
+            .style("font-size", "12px")
             .style("fill", "black")
-            .style("font-family", "Arial")
+            .style("font-family", "Oswald")
             .text("Tournaments");
 
         // Add y-axis
         vis.chartGroup.append("g")
             .attr("class", "y-axis")
             .call(d3.axisLeft(vis.yScale))
-            .selectAll("text")
-            .style("fill", "black");
-
-        vis.chartGroup.select(".y-axis")
-            .selectAll("path, line")
-            .style("stroke", "black");
+            .style("font-family", "Oswald");
 
         // Add y-axis label
         vis.chartGroup.append("text")
+            .attr("class", "y-axis-label")
             .attr("x", -vis.height / 2)
             .attr("y", -vis.margin.left / 1.5)
             .attr("transform", "rotate(-90)")
             .attr("text-anchor", "middle")
-            .style("font-size", "10px")
-            .style("font-family", "Arial")
+            .style("font-size", "12px")
             .style("fill", "black")
+            .style("font-family", "Oswald")
             .text("ELO Rating");
     }
+
 }
