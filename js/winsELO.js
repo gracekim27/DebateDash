@@ -14,9 +14,9 @@ class WinsELO {
         let vis = this;
 
         // Define margins and dimensions based on the parent element's size
-        vis.margin = {top: 20, right: 50, bottom: 75, left: 50};
-        vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width) - vis.margin.left - vis.margin.right;
-        vis.height = 400;
+        vis.margin = {top: 20, right: 50, bottom: 40, left: 50};
+        vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width ) - vis.margin.left - vis.margin.right;
+        vis.height = 450 - vis.margin.bottom - vis.margin.top;
 
         // SVG drawing area
         vis.svg = d3.select(`#${vis.parentElement}`)
@@ -77,7 +77,7 @@ class WinsELO {
         if (vis.competitorData.length === 0) {
             vis.chartGroup.selectAll("*").remove(); // Clear all elements
             vis.chartGroup.append("text")
-                .attr("class", "no-data-text") // Add a class for easy identification
+                .attr("class", "no-data-text")
                 .attr("x", vis.width / 2)
                 .attr("y", vis.height / 2)
                 .attr("text-anchor", "middle")
@@ -86,13 +86,6 @@ class WinsELO {
                 .text("No data available for the selected filter.");
             return;
         }
-
-        // Clear previous visualization elements if data exists
-        vis.chartGroup.selectAll(".dot").remove();
-        vis.chartGroup.selectAll(".x-axis").remove();
-        vis.chartGroup.selectAll(".y-axis").remove();
-        vis.chartGroup.selectAll(".x-axis-label").remove();
-        vis.chartGroup.selectAll(".y-axis-label").remove();
 
         // Set up scales
         vis.xScale = d3.scaleLinear()
@@ -117,20 +110,29 @@ class WinsELO {
         const enterDots = dots.enter()
             .append("circle")
             .attr("class", "dot")
-            .attr("cx", d => vis.xScale(d.berkELO)) // Initial position
-            .attr("cy", vis.height) // Start at the bottom of the chart
+            .attr("cx", d => vis.xScale(d.berkELO)) // Initial x position
+            .attr("cy", d => vis.yScale(d.avgWins)) // Initial y position
             .attr("r", 5)
             .attr("fill", d => d.gender === "girl" ? "#E9A7A4" : "#233165")
-            .attr("opacity", 0.6);
+            .attr("opacity", 0); // Start invisible
 
-        // UPDATE selection
-        dots.merge(enterDots)
-            .transition() // Transition for both new and updated elements
+        // Animate appearance of new dots
+        enterDots
+            .transition()
             .duration(1000)
-            .attr("cx", d => vis.xScale(d.berkELO)) // Move to new x position
-            .attr("cy", d => vis.yScale(d.avgWins)); // Move to new y position
+            .attr("opacity", 0.6); // Fade in
 
-        // EXIT selection
+        // UPDATE selection (move existing dots to new positions)
+        dots.merge(enterDots) // Merge ENTER and UPDATE selections
+            .transition()
+            .duration(1000)
+            .attr("cx", d => vis.xScale(d.berkELO)) // Update x position
+            .attr("cy", d => vis.yScale(d.avgWins)) // Update y position
+            .attr("r", 5) // Update size (optional)
+            .attr("fill", d => d.gender === "girl" ? "#E9A7A4" : "#233165") // Update color (optional)
+            .attr("opacity", 0.6); // Maintain visibility
+
+        // EXIT selection (remove dots for competitors not matching the filter)
         dots.exit()
             .transition()
             .duration(500)
@@ -138,19 +140,21 @@ class WinsELO {
             .remove();
 
         // Add x-axis
+        vis.chartGroup.selectAll(".x-axis").remove(); // Remove old axis
         vis.chartGroup.append("g")
             .attr("class", "x-axis")
             .attr("transform", `translate(0,${vis.height})`)
             .call(d3.axisBottom(vis.xScale))
             .selectAll("text")
             .style("fill", "black")
-            .style("font-family", "Oswald")
+            .style("font-family", "Oswald");
 
         // Add x-axis label
+        vis.chartGroup.selectAll(".x-axis-label").remove(); // Remove old label
         vis.chartGroup.append("text")
             .attr("class", "x-axis-label")
             .attr("x", vis.width / 2)
-            .attr("y", vis.height + vis.margin.bottom / 2)
+            .attr("y", vis.height + 35)
             .attr("text-anchor", "middle")
             .style("font-size", "12px")
             .style("fill", "black")
@@ -158,12 +162,14 @@ class WinsELO {
             .text("End of Year ELO");
 
         // Add y-axis
+        vis.chartGroup.selectAll(".y-axis").remove(); // Remove old axis
         vis.chartGroup.append("g")
             .attr("class", "y-axis")
             .call(d3.axisLeft(vis.yScale))
             .style("font-family", "Oswald");
 
         // Add y-axis label
+        vis.chartGroup.selectAll(".y-axis-label").remove(); // Remove old label
         vis.chartGroup.append("text")
             .attr("class", "y-axis-label")
             .attr("x", -vis.height / 2)
@@ -175,6 +181,7 @@ class WinsELO {
             .style("font-family", "Oswald")
             .text("Average Wins Across Tournaments");
     }
+
 
 
 }

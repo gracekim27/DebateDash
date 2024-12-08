@@ -252,7 +252,7 @@
             <div class="minTournament">
                 <h2 class="bangers-h2">Tournament Tally </h2>
                 <p>Adjust the slider to filter competitors based on the minimum number of tournaments attended.</p>
-                <input type="range" id="mySlider" min="0" max="10" value="5" class="form-range">
+                <input type="range" id="mySlider" min="1" max="8" value="5" class="form-range">
                 <h5>Minimum Tournaments: <span id="sliderValue">5</span></h5>
             </div>
             <div class="row">
@@ -266,6 +266,9 @@
                     <div id="eloChange" class="vis"></div>
                 </div>
 
+            </div>
+            <div class="row">
+                <div id="legend"></div>
             </div>
         </div>
     </div>
@@ -337,6 +340,7 @@
 <script src="js/affNegSplits.js"></script>
 <script src="js/winsELO.js"></script>
 <script src="js/eloChange.js"></script>
+<script src="js/eloLegend.js"></script>
 <script src="js/performanceSimulator.js"></script>
 <script src="js/main.js"></script>
 </body>

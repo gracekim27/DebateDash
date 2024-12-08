@@ -14,9 +14,9 @@ class EloChange {
         let vis = this;
 
         // Define margins and dimensions based on the parent element's size
-        vis.margin = {top: 20, right: 50, bottom: 75, left: 50};
+        vis.margin = {top: 20, right: 50, bottom: 40, left: 50};
         vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width ) - vis.margin.left - vis.margin.right;
-        vis.height = 400;
+        vis.height = 450 - vis.margin.bottom - vis.margin.top;
 
         // SVG drawing area
         vis.svg = d3.select(`#${vis.parentElement}`)
@@ -48,22 +48,19 @@ class EloChange {
         vis.competitorData = groupedData.map(([competitor, records]) => {
             let gender = records[0]?.Gender || "unknown"; // Handle missing gender
 
-            // Filter records for relevant tournaments and valid Elo values
-            let validRecords = records.filter(d => {
-                return vis.tournamentOrder.includes(d.Tournament) && !isNaN(d.Wins);
-            });
-
-            // Map valid records to ordered structure
+            // Map all tournaments to create ordered structure
             let orderedRecords = vis.tournamentOrder.map(tournament => {
-                let record = validRecords.find(d => d.Tournament === tournament);
+                // Find the record for the specific tournament
+                let record = records.find(d => d.Tournament === tournament);
                 return {
                     Tournament: tournament,
-                    Elo: record ? +record.Elo : null
+                    Elo: record ? +record.Elo : null, // Use null if no record exists
+                    Competed: record && !isNaN(record.Wins) // True if Wins is not NA
                 };
-            }).filter(d => d.Elo !== null); // Remove tournaments without valid Elo
+            });
 
-            // Count the number of tournaments attended
-            let tournamentsAttended = orderedRecords.length;
+            // Count only tournaments where the competitor actually competed
+            let tournamentsAttended = orderedRecords.filter(d => d.Competed).length;
 
             // Debugging: log competitor and tournaments attended
             console.log("Competitor:", competitor, "Tournaments Attended:", tournamentsAttended);
@@ -78,6 +75,7 @@ class EloChange {
 
         vis.updateVis();
     }
+
 
 
     updateVis() {
@@ -209,7 +207,7 @@ class EloChange {
         vis.chartGroup.append("text")
             .attr("class", "x-axis-label")
             .attr("x", vis.width / 2)
-            .attr("y", vis.height + vis.margin.bottom / 2)
+            .attr("y", vis.height + 35)
             .attr("text-anchor", "middle")
             .style("font-size", "12px")
             .style("fill", "black")

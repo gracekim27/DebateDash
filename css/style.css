@@ -446,3 +446,16 @@ hr {
     background-size: 5px 5px; /* Adjust dot size and spacing */
     background-color: #FE1D87; /* Base color (pink) */
 }
+
+
+/* Tooltip */
+.tooltip {
+    position: absolute;
+    background: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    pointer-events: none;
+    font-size: 12px;
+    z-index: 10;
+}
