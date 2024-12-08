@@ -49,20 +49,22 @@ class AffNegSplits {
             .append("text")
             .attr("class", "motion-title")
             .attr("x", 100)
-            .attr("y", 0)
-            .attr("font-size", "16px")
+            .attr("y", 10)
+            .attr("font-size", "20px")
             .style("fill", "white")
-            .style("font-family", "Arial")
+            .style("font-family", "Oswald")
             .text("Motion Details:");
 
         vis.motionDetails
             .append("text")
             .attr("class", "motion-content")
             .attr("x", 100)
-            .attr("y", 30)
-            .attr("font-size", "14px")
+            .attr("y", 40)
+            .attr("font-size", "15px")
             .style("fill", "white")
-            .style("font-family", "Arial");
+            .style("font-weight", "200")
+            .style("line-height", 2)
+            .style("font-family", "Oswald");
 
         vis.wrangleData();
     }
@@ -91,7 +93,7 @@ class AffNegSplits {
         // Pie layout and arc generator
         const pie = d3.pie().value(d => d.value).sort(null);
         const arc = d3.arc().innerRadius(0).outerRadius(vis.radius);
-        vis.color = d3.scaleOrdinal(["#40e36b", "#e34040"]);
+        vis.color = d3.scaleOrdinal(["#439745", "#DB3A3A"]);
 
         // Store positions for the pie charts
         vis.pieChartPositions = [];
@@ -126,7 +128,7 @@ class AffNegSplits {
                     .attr("text-anchor", "middle")
                     .attr("font-size", "12px")
                     .style("fill", "black")
-                    .style("font-family", "Arial")
+                    .style("font-family", "Oswald")
                     .text(d.Tournament);
 
                 tournamentGroup.selectAll("path")
@@ -135,8 +137,8 @@ class AffNegSplits {
                     .append("path")
                     .attr("d", arc)
                     .attr("fill", (sliceData, idx) => vis.color(idx))
-                    .attr("stroke", "white")
-                    .attr("stroke-width", 1);
+                    .attr("stroke", "black")
+                    .attr("stroke-width", 2);
             });
         });
 
@@ -176,9 +178,9 @@ class AffNegSplits {
                 .attr("x", 0)
                 .attr("y", 0)
                 .attr("text-anchor", "middle")
-                .attr("font-size", "14px")
+                .attr("font-size", "15px")
                 .style("fill", "white")
-                .style("font-family", "Arial")
+                .style("font-family", "Oswald")
                 .text(topic.title);
 
             // Measure text dimensions
@@ -186,14 +188,42 @@ class AffNegSplits {
 
             // Append the rectangle (button) behind the text
             buttonGroup.insert("rect", "text")
-                .attr("x", -textBBox.width / 2 - 5)
-                .attr("y", -textBBox.height / 2 - 10)
-                .attr("width", textBBox.width + 10)
+                .attr("x", -textBBox.width / 2 - 10)
+                .attr("y", -22)
+                .attr("width", textBBox.width + 20)
                 .attr("height", textBBox.height + 10)
-                .attr("rx", 7)
-                .style("fill", "black")
-                .style("stroke", "lightgray")
-                .style("stroke-width", 1.5);
+                .attr("rx", 15) // Rounded-pill corners
+                .style("fill", "#465691") // Same background color as Bootstrap btn-primary
+                .style("stroke", "black") // Border similar to btn-primary hover
+                .style("stroke-width", 1.5)
+                .style("transition", "all 0.3s ease")
+                .on("mouseover", function () {
+                    d3.select(this)
+                        .attr("y", -24)
+                        .style("fill", "#263A84") // Hover background color
+                        .style("stroke", "black");
+                })
+                .on("mouseout", function () {
+                    d3.select(this)
+                        .attr("y", -22)
+                        .style("fill", "#465691")
+                        .style("stroke", "black");
+                })
+                .on("mousedown", function () {
+                    d3.select(this)
+                        .attr("y", -textBBox.width / 2)
+                        .style("fill", "#263A84")
+                        .style("stroke", "black");
+                })
+                .on("mouseup", function () {
+                    d3.select(this)
+                        .attr("y", -textBBox.width / 2)
+                        .style("fill", "#263A84")
+                        .style("stroke", "black");
+                });
+
+// Set `pointer-events` on text
+            textElement.style("pointer-events", "none");
         });
     }
 

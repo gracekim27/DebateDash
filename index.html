@@ -187,7 +187,7 @@
                     <option value="Female">Female</option>
                 </select>
                 <select class="form-select select-box" aria-label="School type"  id="youSchool">
-                    <option value="" disabled selected>Select an option</option>
+                    <option value="" disabled selected>School Type</option>
                     <option value="Public School">Public School</option>
                     <option value="Private School">Private School</option>
                 </select>
@@ -196,7 +196,8 @@
                     <input min="-400" max="1000" value="400" type="number" id="youELO" class="form-control" placeholder="400" />
                 </div>
             </div>
-            <div class="select-container vis">
+            <br>
+            <div class="select-container">
                 <p><b>Opponent: </b></p>
                 <select class="form-select select-box" aria-label="Gender" id="oppGender">
                     <option value="" disabled selected>Gender</option>
@@ -204,7 +205,7 @@
                     <option value="Female">Female</option>
                 </select>
                 <select class="form-select select-box" aria-label="School type"  id="oppSchool">
-                    <option value="" disabled selected>Select an option</option>
+                    <option value="" disabled selected>School Type</option>
                     <option value="Public School">Public School</option>
                     <option value="Private School">Private School</option>
                 </select>
@@ -212,7 +213,14 @@
                 <div data-mdb-input-init class="form-outline select-box">
                     <input min="-400" max="1000" value="400" type="number" id="oppELO" class="form-control" placeholder="400" />
                 </div>
-                <button type="button" class="btn btn-primary vis" id="performanceSimulatorButton">Go!</button>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-5"></div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-primary btn-lg rounded-pill" id="performanceSimulatorButton">SIMULATE!</button>
+                </div>
+                <div class="col-5"></div>
             </div>
             <div class="row">
                 <div id="performanceSimulator" class="vis"></div>

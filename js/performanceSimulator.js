@@ -11,7 +11,7 @@ class PerformanceSimulator {
         let vis = this;
 
         // Define margins and dimensions based on the parent element's size
-        vis.margin = {top: 60, right: 20, bottom: 10, left: 50}; // Increased top margin for title
+        vis.margin = {top: 60, right: 70, bottom: 10, left: 50}; // Increased top margin for title
         vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 2) - vis.margin.left - vis.margin.right;
         vis.height = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 3) - vis.margin.top - vis.margin.bottom;
 
@@ -26,7 +26,7 @@ class PerformanceSimulator {
         vis.chartGroup = vis.svg.append("g")
             .attr("transform", `translate(${vis.margin.left},${vis.margin.top})`);
 
-        vis.color = d3.scaleOrdinal(["#40e36b", "#e34040"]);
+        vis.color = d3.scaleOrdinal(["#439745", "#DB3A3A"]);
 
         // Wrangle data to calculate required statistics
         vis.wrangleData();
@@ -89,25 +89,41 @@ class PerformanceSimulator {
         // Append path (slices) to each arc group
         arcs.append("path")
             .attr("d", arc)
-            .attr("fill", (d, i) => vis.color(i));
+            .attr("fill", (d, i) => vis.color(i))
+            .attr("stroke", "black")
+            .attr("stroke-width", 3);
 
         let percentageWin = Math.round(vis.pieData[0].value * 100);
         let percentageLose = Math.round(vis.pieData[1].value * 100);
 
         vis.svg.append("text")
-            .text("WIN: \n" + percentageWin + "%")
-            .attr("x",  vis.width / 2 + 120)
-            .attr("y", 50)
-            .attr("font-size", "18px")
+            .attr("font-size", "25px")
             .attr("fill", "black")
+            .attr("font-family", "Oswald")
+            .append("tspan")
+            .text("WIN CHANCE")
+            .attr("x", vis.width / 2 + 120)
+            .attr("dy", 0)
+            .append("tspan")
+            .text(`${percentageWin}%`)
+            .attr("x", vis.width / 2 + 120)
+            .attr("dy", "1.2em")
+            .attr("font-weight", "bold");
 
         vis.svg.append("text")
-            .text("LOSE: \n" + percentageLose + "%")
             .attr("text-anchor", "end")
-            .attr("x",  vis.width / 2 - 120)
-            .attr("y", 50)
-            .attr("font-size", "18px")
+            .attr("font-size", "25px")
             .attr("fill", "black")
+            .attr("font-family", "Oswald")
+            .append("tspan")
+            .text("LOSE CHANCE")
+            .attr("x", vis.width / 2 - 120)
+            .attr("dy", 0)
+            .append("tspan")
+            .text(`${percentageLose}%`)
+            .attr("x", vis.width / 2 - 120)
+            .attr("dy", "1.2em")
+            .attr("font-weight", "bold");
     }
 
 

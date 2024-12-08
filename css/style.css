@@ -155,12 +155,21 @@ h1{
 .bangers-h2 {
     font-family: "Bangers", system-ui;
     font-weight: 400;
-    font-size: 4em;
+    font-size: 3em;
     font-style: normal;
     display: flex;
     justify-content: center;
     color: white;
-    -webkit-text-stroke: 4px black;
+    -webkit-text-stroke: 3px black;
+}
+
+
+.oswald-subtitle {
+    text-align: center;
+    color: black;
+    font-family: "Oswald", sans-serif;
+    font-size: 0.8em;
+    font-weight: normal;
 }
 
 .d, .r, .o, .p, .s {
@@ -302,6 +311,28 @@ li{
     text-align: center;
 }
 
+#performanceSimulatorButton {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    padding: 10px 30px;
+    background: linear-gradient(135deg, #465691, #465691);
+    border: black 3px solid;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#performanceSimulatorButton:hover {
+    background: linear-gradient(135deg, #263A84, #233165);
+    transform: translateY(-2px);
+}
+
+#performanceSimulatorButton:active {
+    transform: translateY(0);
+}
+
 .vis{
     margin-left: auto;
     margin-right: auto;
@@ -315,12 +346,13 @@ hr {
 }
 
 .select-container {
-    display: flex;
-    gap: 10px;  /* Add space between select elements */
-    justify-content: center;
-    max-width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
+    display: flex;                 /* Flexbox for horizontal alignment */
+    flex-wrap: wrap;               /* Allow wrapping for smaller screens */
+    gap: 15px;                     /* Add consistent spacing between elements */
+    justify-content: flex-end;     /* Align elements to the right */
+    align-items: center;           /* Align items vertically */
+    max-width: 100%;               /* Allow container to adapt to parent width */
+    padding: 10px 24%;               /* Add vertical padding for spacing */
 }
 
 .select-box {
@@ -367,7 +399,7 @@ hr {
 .navigation_dots li:hover,
 .navigation_dots li.selected {
     transform: scale(1.5);
-    background: #ff6666; /* Highlight active dot */
+    background: #FE1D87; /* Highlight active dot */
 }
 
 
@@ -408,7 +440,7 @@ hr {
     width: 80%;
     border: solid 3px black;
     background-color:#FE1D87;
-    margin: 2em auto 2em auto;
+    margin: 3em auto 2em auto;
     justify-content: center; /* Horizontal centering */
     background: radial-gradient(circle, rgba(0, 0, 0, 0.1) 30%, rgba(0, 0, 0, 0.2) 10%);
     background-size: 5px 5px; /* Adjust dot size and spacing */

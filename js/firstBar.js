@@ -13,8 +13,8 @@ class FirstBar {
 
         // Define margins and dimensions
         vis.margin = { top: 60, right: 150, bottom: 100, left: 50 }; // Increased right margin for summary
-        vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 2) - vis.margin.left - vis.margin.right;
-        vis.height = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 3) - vis.margin.top - vis.margin.bottom;
+        vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width) - vis.margin.left - vis.margin.right;
+        vis.height = (2* document.getElementById(vis.parentElement).getBoundingClientRect().width/3) - vis.margin.top - vis.margin.bottom;
 
         // SVG drawing area
         vis.svg = d3.select(`#${vis.parentElement}`)
@@ -24,16 +24,6 @@ class FirstBar {
             .append("g")
             .attr("transform", `translate(${vis.margin.left},${vis.margin.top})`);
 
-        // Plot Title
-        vis.svg.append("text")
-            .attr("class", "plot-title")
-            .attr("x", vis.width / 2)
-            .attr("y", -vis.margin.top / 2 + 20)
-            .attr("text-anchor", "middle")
-            .style("font-size", "18px")
-            .style("fill", "black")
-            .style("font-family", "Arial")
-            .text("Average ELO by Group and Gender");
 
         // Tooltip (create it once, outside the SVG)
         vis.tooltip = d3.select("body").append("div")
@@ -42,9 +32,10 @@ class FirstBar {
             .style("position", "absolute")
             .style("background", "#333")
             .style("color", "#fff")
-            .style("padding", "5px")
+            .style("padding", "10px")
             .style("border-radius", "5px")
-            .style("pointer-events", "none");
+            .style("pointer-events", "none")
+            .style("font-family", "Oswald");
 
         // Create summary group for the right-hand summary box
         vis.summaryGroup = vis.svg.append("g")
@@ -53,12 +44,12 @@ class FirstBar {
 
         // Add the title to the summary group
         vis.summaryGroup.append("text")
-            .attr("class", "summary-title")
             .attr("x", 0)
             .attr("y", 0)
             .text("Other averages")
             .style("fill", "black")
-            .style("font-size", "16px")
+            .style("font-size", "20px")
+            .style("font-family", "Oswald")
             .style("font-weight", "bold");
 
         vis.wrangleData();
@@ -135,7 +126,9 @@ class FirstBar {
             .attr("y", d => vis.yScale(d.averageELO))
             .attr("width", vis.xScale.bandwidth())
             .attr("height", d => vis.height - vis.yScale(d.averageELO))
-            .attr("fill", d => d.label.includes("Girls") ? "lightpink" : "lightskyblue")
+            .attr("fill", d => d.label.includes("Girls") ? "#FE1D87" : "#233165")
+            .attr("stroke", "black")
+            .attr("stroke-width", 5)
             .on("mouseover", function(event, d) {
                 vis.tooltip.transition().duration(200).style("opacity", 1);
                 vis.tooltip.html(`Group: ${d.label}<br>Average ELO: ${d.averageELO.toFixed(2)}`)
@@ -151,13 +144,17 @@ class FirstBar {
             vis.svg.append("g")
                 .attr("class", "x-axis")
                 .attr("transform", `translate(0,${vis.height})`)
+                .attr("stroke-width", 5)
                 .call(d3.axisBottom(vis.xScale))
                 .selectAll("text")
-                .style("fill", "black");
+                .style("fill", "black")
+                .style("font-family", "Oswald")
+                .style("font-size", "20px");
 
             vis.svg.select(".x-axis")
                 .selectAll("path, line")
-                .style("stroke", "black");
+                .style("stroke", "black")
+                .style("font-family", "Oswald");
         } else {
             vis.svg.select(".x-axis").call(d3.axisBottom(vis.xScale));
         }
@@ -166,13 +163,17 @@ class FirstBar {
         if (vis.svg.selectAll(".y-axis").empty()) {
             vis.svg.append("g")
                 .attr("class", "y-axis")
+                .attr("stroke-width", 5)
                 .call(d3.axisLeft(vis.yScale))
                 .selectAll("text")
-                .style("fill", "black");
+                .style("fill", "black")
+                .style("font-family", "Oswald")
+                .style("font-size", "20px");
 
             vis.svg.select(".y-axis")
                 .selectAll("path, line")
-                .style("stroke", "black");
+                .style("stroke", "black")
+                .style("font-family", "Oswald");
         } else {
             vis.svg.select(".y-axis").call(d3.axisLeft(vis.yScale));
         }
@@ -188,7 +189,7 @@ class FirstBar {
 
         // Add text elements for overall averages
         vis.summaryGroup.append("text")
-            .attr("class", "summary-text")
+            .attr("class", "oswald-subtitle")
             .attr("x", 0)
             .attr("y", 20)
             .text(`All Private: ${vis.overallAverages.private?.toFixed(2) || "N/A"}`)
@@ -197,7 +198,7 @@ class FirstBar {
             .style("font-weight", "600");
 
         vis.summaryGroup.append("text")
-            .attr("class", "summary-text")
+            .attr("class", "oswald-subtitle")
             .attr("x", 0)
             .attr("y", 40)
             .text(`All Public: ${vis.overallAverages.public?.toFixed(2) || "N/A"}`)
@@ -206,7 +207,7 @@ class FirstBar {
             .style("font-weight", "200");
 
         vis.summaryGroup.append("text")
-            .attr("class", "summary-text")
+            .attr("class", "oswald-subtitle")
             .attr("x", 0)
             .attr("y", 60)
             .text(`All Boys: ${vis.overallAverages.boys?.toFixed(2) || "N/A"}`)
@@ -215,7 +216,7 @@ class FirstBar {
             .style("font-weight", "600");
 
         vis.summaryGroup.append("text")
-            .attr("class", "summary-text")
+            .attr("class", "oswald-subtitle")
             .attr("x", 0)
             .attr("y", 80)
             .text(`All Girls: ${vis.overallAverages.girls?.toFixed(2) || "N/A"}`)
