@@ -249,7 +249,7 @@ class StateAttendanceFunding {
             .attr("stroke", "black")
             .attr("stroke-width", 2)
             .on("mouseover", function (event, d) {
-                d3.select(this).attr("stroke", "black").attr("stroke-width", 2);
+                d3.select(this).attr("stroke", "black").attr("stroke-width", 5);
 
                 vis.tooltip
                     .style("opacity", 1)
@@ -262,7 +262,7 @@ class StateAttendanceFunding {
                 `);
             })
             .on("mouseout", function () {
-                d3.select(this).attr("stroke", "none");
+                d3.select(this).attr("stroke", "black").attr("stroke-width", 2);
 
                 vis.tooltip.style("opacity", 0);
             })
