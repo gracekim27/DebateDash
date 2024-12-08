@@ -25,12 +25,13 @@ class MapVis {
         vis.margin = {top: 20, right: 20, bottom: 20, left: 20};
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
-        
+
         // init drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
             .attr("width", vis.width)
             .attr("height", vis.height)
             .attr('transform', `translate (${vis.margin.left}, ${vis.margin.top})`);
+
 
         // add title
         vis.svg.append('g')
@@ -45,7 +46,7 @@ class MapVis {
         //     .translate([vis.width / 2, vis.height / 2])
         //     .scale(230)
 
-        vis.projection = d3.pr
+        // vis.projection = d3.pr
 
         vis.viewpoint = {'width': 975, 'height': 610};
         vis.zoom = vis.width / vis.viewpoint.width;
@@ -66,7 +67,7 @@ class MapVis {
             .enter().append("path")
             .attr('class', 'state')
             .attr("d", vis.path)
-            .attr("stroke-width", 1)
+            .attr("stroke-width", 3)
             .attr("stroke", "black")
             .attr("fill", "white")
 
@@ -76,10 +77,60 @@ class MapVis {
             .attr('class', "tooltip")
             .attr('id', 'pieTooltip')
 
-        vis.colorScale = d3.scaleSequential(d3.interpolateBlues)
-            .domain([0, 3]);
+        vis.colorScale = d3.scaleSequential(d3.interpolateRgb("#E5DEC6", "#439745"))
+            .domain([0, 24881]);
 
-        this.wrangleData();
+
+
+        // Add legend
+        vis.legendWidth = 200;
+        vis.legendHeight = 20;
+
+        let legend = vis.svg.append("g")
+            .attr("class", "legend")
+            .attr("transform", `translate(${vis.width - 60}, ${vis.height / 2})`);
+
+        let legendScale = d3.scaleLinear()
+            .domain(vis.colorScale.domain())
+            .range([0, vis.legendWidth]);
+
+        let legendAxis = d3.axisRight(legendScale) // Vertical axis on the right
+            .ticks(6)
+            .tickFormat(d3.format(".0f"));
+
+        let gradient = vis.svg.append("defs")
+            .append("linearGradient")
+            .attr("id", "legend-gradient")
+            .attr("x1", "0%").attr("y1", "0%")
+            .attr("x2", "0%").attr("y2", "100%"); // Vertical gradient
+
+
+        // Create gradient stops
+        gradient.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", vis.colorScale(vis.colorScale.domain()[0])); // Dynamically use the domain's start value
+
+        gradient.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", vis.colorScale(vis.colorScale.domain()[1])); // Dynamically use the domain's end value
+
+
+        // Add gradient rectangle
+        legend.append("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", vis.legendHeight) // Small width for vertical orientation
+            .attr("height", vis.legendWidth) // Height corresponds to the legend scale range
+            .style("fill", "url(#legend-gradient)");
+
+
+        // Add legend axis
+        legend.append("g")
+            .attr("class", "legend-axis")
+            .attr("transform", `translate(${vis.legendHeight}, 0)`) // Align axis with the right side of the rectangle
+            .call(legendAxis);
+
+        this.wrangleData();vis.svg.style("background", "none");
     }
 
     wrangleData() {
@@ -94,11 +145,11 @@ class MapVis {
 
             let stateName = d.state;
 
-            let population = Math.random() * 4;
+            let Spending = d.Spending;
 
             vis.stateInfo[stateName] = {
-                population: population,
-                color: vis.colorScale(population),
+                Spending: Spending,
+                color: vis.colorScale(Spending),
             }
 
         })
@@ -119,9 +170,9 @@ class MapVis {
                 let stateInfo = vis.stateInfo[d.properties.name]
 
                 d3.select(this)
-                    .attr('stroke-width', '2px')
+                    .attr('stroke-width', '4px')
                     .attr('stroke', 'black')
-                    .attr('fill', 'rgba(200,0,0,0.62)')
+                    .attr('fill', '#FE1D87')
 
                 vis.tooltip
                     .style("opacity", 1)
@@ -130,14 +181,14 @@ class MapVis {
                     .html(`
      <div style="border: thin solid grey; border-radius: 5px; background: lightgrey; padding: 20px">
          <h3>${d.properties.name}<h3>
-         <h4> Population: ${stateInfo.population}</h4>                         
+         <h4> Spending: ${stateInfo.Spending}</h4>                         
      </div>`);
 
             })
             .on('mouseout', function(event, d){
                 var color = vis.stateInfo[d.properties.name].color
                 d3.select(this)
-                    .attr('stroke-width', '1px')
+                    .attr('stroke-width', '3px')
                     .attr("fill", color)
 
                 vis.tooltip

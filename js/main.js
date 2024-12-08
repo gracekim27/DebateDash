@@ -5,13 +5,15 @@ let winsELOs;
 let eloChange;
 let performanceSimulator;
 let mapVis;
+let stateFundingELO;
+let stateAttendanceFunding;
 
 let promises = [
     d3.csv("data/CS171_TournamentData.csv"),
     d3.csv("data/win_percentages_df.csv"),
     d3.csv("data/probs.csv"),
     d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-albers-10m.json"), // already projected -> you can just scale it to fit your browser window
-    d3.csv("data/census_usa.csv")
+    d3.csv("data/per-pupil-spending-by-state-2024.csv")
 ];
 
 Promise.all(promises)
@@ -40,6 +42,8 @@ function initMainPage(dataArray) {
     eloChange = new EloChange("eloChange", tournamentData);
     performanceSimulator = new PerformanceSimulator("performanceSimulator", probsData);
     mapVis = new MapVis('mapDiv', studentsPerStateData, geoData);
+    stateFundingELO = new StateFundingELO('stateFundingELO', studentsPerStateData, tournamentData);
+    stateAttendanceFunding = new StateAttendanceFunding('stateAttendanceFunding', studentsPerStateData, tournamentData);
 
     // Setup slider for filtering visualizations
     setupSlider();

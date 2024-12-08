@@ -114,13 +114,15 @@ class WinsELO {
             .attr("cy", d => vis.yScale(d.avgWins)) // Initial y position
             .attr("r", 5)
             .attr("fill", d => d.gender === "girl" ? "#E9A7A4" : "#233165")
+            .attr("stroke", "black")
+            .attr("stroke-width", 2)
             .attr("opacity", 0); // Start invisible
 
         // Animate appearance of new dots
         enterDots
             .transition()
             .duration(1000)
-            .attr("opacity", 0.6); // Fade in
+            .attr("opacity", 1); // Fade in
 
         // UPDATE selection (move existing dots to new positions)
         dots.merge(enterDots) // Merge ENTER and UPDATE selections
@@ -130,7 +132,7 @@ class WinsELO {
             .attr("cy", d => vis.yScale(d.avgWins)) // Update y position
             .attr("r", 5) // Update size (optional)
             .attr("fill", d => d.gender === "girl" ? "#E9A7A4" : "#233165") // Update color (optional)
-            .attr("opacity", 0.6); // Maintain visibility
+            .attr("opacity", 1); // Maintain visibility
 
         // EXIT selection (remove dots for competitors not matching the filter)
         dots.exit()

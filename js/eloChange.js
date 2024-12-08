@@ -131,10 +131,32 @@ class EloChange {
             .append("path")
             .attr("class", "line")
             .attr("fill", "none")
-            .attr("stroke", d => d.gender === 'boy' ? "#233165" : "#E9A7A4") // Set color based on gender
-            .attr("stroke-width", 1.5)
+            .attr("stroke", d => d.gender === 'boy' ? "#233165" : "#E9A7A4")
+            .attr("stroke-width", 1)
             .attr("d", d => line(d.records))
-            .attr("opacity", 0) // Start with opacity 0
+            .attr("opacity", 0)
+            .on("mouseover", function (event, d) {
+                d3.select(this)
+                    .attr("stroke-width", 5) // Thicker line on hover
+                    .attr("opacity", 0.9); // Fully visible on hover
+
+                vis.tooltip
+                    .style("opacity", 1)
+                    .style("left", `${event.pageX + 10}px`)
+                    .style("top", `${event.pageY - 20}px`)
+                    .html(`
+                    <strong>${d.competitor}</strong><br>
+                    Gender: ${d.gender}<br>
+                    Tournaments Attended: ${d.records.filter(r => r.Competed).length}
+                `);
+            })
+            .on("mouseout", function () {
+                d3.select(this)
+                    .attr("stroke-width", 1) // Restore original thickness
+                    .attr("opacity", 0.5); // Restore original opacity
+
+                vis.tooltip.style("opacity", 0);
+            })
             .transition()
             .duration(1000)
             .attr("opacity", 0.5); // Transition to final opacity
@@ -142,14 +164,14 @@ class EloChange {
         // UPDATE: Update existing lines
         lines.transition()
             .duration(1000)
-            .attr("d", d => line(d.records)) // Update line path
+            .attr("d", d => line(d.records))
             .attr("stroke", d => d.gender === 'boy' ? "#233165" : "#E9A7A4");
 
         // EXIT: Remove old lines
         lines.exit()
             .transition()
             .duration(500)
-            .attr("opacity", 0) // Fade out
+            .attr("opacity", 0)
             .remove();
 
         // Bind data to dots
@@ -173,7 +195,7 @@ class EloChange {
             .transition()
             .duration(1000)
             .attr("cy", d => vis.yScale(d.Elo)) // Transition to final position
-            .attr("opacity", 0.5);
+            .attr("opacity", 1);
 
         // UPDATE: Update existing dots
         dots.selectAll(".dot")
