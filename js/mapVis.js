@@ -25,7 +25,7 @@ class MapVis {
 
         let vis = this;
 
-        vis.margin = {top: 20, right: 20, bottom: 20, left: 20};
+        vis.margin = {top: 20, right: 0, bottom: 20, left: 0};
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
@@ -44,20 +44,50 @@ class MapVis {
             .attr('transform', `translate(${vis.width / 2}, 0)`)
             .attr('text-anchor', 'middle');
 
+        vis.textTitle = vis.svg.append('text')
+            .attr("x", vis.width - 100)
+            .attr("y", 30)
+            .style("font-size", "20px")
+            .style("font-family", "Oswald")
+            .attr("text-anchor", "middle")
+            .text("Public School Debaters")
+
+        vis.textDescription = vis.svg.append('text')
+            .attr("x", vis.width - 100)
+            .attr("y", 60)
+            .style("font-size", "14px")
+            .style("font-family", "Oswald")
+            .attr("text-anchor", "middle")
+            .text("Public School Debaters")
+
+        vis.categoryToTitle = {
+            studentCount: "Public School Debaters",
+            studentCountPerCapita: "Debaters Per Capita",
+            spending: "Spending Per Student",
+            elo: "Average Elo"
+        }
+
+        vis.categoryToDescription = {
+            studentCount: "Public School Debaters",
+            studentCountPerCapita: "Debaters Per Capita",
+            spending: "Spending Per Student",
+            elo: "Average Elo"
+        }
+
         // vis.projection = d3.geoAlbersUsa() // d3.geoStereographic()
         //     .translate([vis.width / 2, vis.height / 2])
         //     .scale(230)
 
         vis.projection = d3.pr
 
-        vis.viewpoint = {'width': 1200, 'height': 610};
+        vis.viewpoint = {'width': 1400, 'height': 610};
         vis.zoom = vis.width / vis.viewpoint.width;
 
 
         // adjust map position
         vis.map = vis.svg.append("g") // group will contain all state paths
             .attr("id", "statesmap")
-            .attr('transform', `translate(100,0), scale(${vis.zoom} ${vis.zoom})`);
+            .attr('transform', `translate(0,0), scale(${vis.zoom} ${vis.zoom})`);
 
         vis.path = d3.geoPath()
             .projection(vis.projection)
@@ -162,6 +192,8 @@ class MapVis {
         let vis = this;
 
         // reset tbody
+
+        vis.textTitle.text(vis.categoryToTitle[vis.selectedCategory]);
 
         vis.states
             .attr("fill", d => vis.stateInfo[d.properties.name].color)
