@@ -93,10 +93,10 @@
 }
 
 body{
-    background: #E5DEC6;
+    background: #EDE0D5;
     background: radial-gradient(circle, rgba(0, 0, 0, 0.05) 20%, rgba(0, 0, 0, 0) 00%);
     background-size: 15px 15px; /* Adjust dot size and spacing */
-    background-color: #E5DEC6; /* Base color (pink) */
+    background-color: #EDE0D5; /* Base color (pink) */
 }
 
 /* Gavel Swing */

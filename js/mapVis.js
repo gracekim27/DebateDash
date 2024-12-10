@@ -69,7 +69,7 @@ class MapVis {
             .enter().append("path")
             .attr('class', 'state')
             .attr("d", vis.path)
-            .attr("stroke-width", 1)
+            .attr("stroke-width", 2)
             .attr("stroke", "black")
             .attr("fill", "white")
 
@@ -83,14 +83,18 @@ class MapVis {
 
     wrangleData() {
 
-        let vis = this
 
-        // init final data structure in which both data sets will be merged into
-        vis.stateInfo = {}
+        let vis = this;
+
+        // Specify the tournament and school type filters
+        let selectedTournament = "Berk"; // Replace with your tournament name or variable
+
+        // Init final data structure in which both data sets will be merged into
+        vis.stateInfo = {};
 
         let selectedMeasure = vis.selectedCategory;
 
-        // merge
+        // Merge spending data
         vis.spendingData.forEach(d => {
 
             let stateName = d.state;
@@ -107,12 +111,18 @@ class MapVis {
 
         let nameConverter = new NameConverter();
 
-        vis.tournamentData.forEach(d => {
+
+        // Filter tournament data for the selected tournament and public schools
+        let filteredTournamentData = vis.tournamentData.filter(d =>
+            d.Tournament === selectedTournament && d['Private/Public'] === "Public"
+        );
+
+        filteredTournamentData.forEach(d => {
             let stateName = nameConverter.getFullName(d.State);
             if (stateName !== '') {
                 vis.stateInfo[stateName].studentCount += 1;
             }
-        })
+        });
 
         vis.censusData.forEach(d => {
             let stateName = d.state;
@@ -141,8 +151,9 @@ class MapVis {
         })
 
         vis.updateVis()
-
     }
+
+
 
     updateVis() {
         let vis = this;
@@ -156,7 +167,7 @@ class MapVis {
                 let stateInfo = vis.stateInfo[d.properties.name]
 
                 d3.select(this)
-                    .attr('stroke-width', '2px')
+                    .attr('stroke-width', '3px')
                     .attr('stroke', 'black')
                     .attr('fill', 'rgba(200,0,80)')
 
@@ -177,7 +188,7 @@ class MapVis {
             .on('mouseout', function(event, d){
                 var color = vis.stateInfo[d.properties.name].color
                 d3.select(this)
-                    .attr('stroke-width', '1px')
+                    .attr('stroke-width', 2)
                     .attr("fill", color)
 
                 vis.tooltip
