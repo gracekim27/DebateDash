@@ -106,6 +106,7 @@ class MapVis {
                 spending: ++spending,
                 funding: ++funding,
                 studentCount: 0,
+                elo: 0
             }
         })
 
@@ -121,6 +122,7 @@ class MapVis {
             let stateName = nameConverter.getFullName(d.State);
             if (stateName !== '') {
                 vis.stateInfo[stateName].studentCount += 1;
+                vis.stateInfo[stateName].elo += ++(d['Elo']);
             }
         });
 
@@ -133,6 +135,7 @@ class MapVis {
                     ...vis.stateInfo[stateName],
                     studentCountPerCapita: vis.stateInfo[stateName].studentCount / population,
                     population: population,
+                    elo: vis.stateInfo[stateName].elo / population
                 }
             }
         });
@@ -181,7 +184,7 @@ class MapVis {
          <h4> Debaters: ${stateInfo.studentCount}</h4>
          <h4> Debaters Per Million People: ${(stateInfo.studentCountPerCapita * 1000000).toFixed()}</h4>                     
          <h4> Spending Per K-12 Student: ${stateInfo.spending}</h4>    
-         <h4> Funding Per K-12 Student: ${stateInfo.funding}</h4>                         
+         <h4> Elo: ${stateInfo.elo.toFixed()}</h4>                         
      </div>`);
 
             })
