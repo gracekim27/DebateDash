@@ -62,7 +62,7 @@ class MapVis {
 
         vis.categoryToTitle = {
             studentCount: "Public School Debaters",
-            studentCountPerCapita: "Debaters Per Capita",
+            studentCountPerCapita: "Public Debaters Per Capita",
             spending: "Spending Per Student",
             elo: "Average Elo"
         }
@@ -191,12 +191,16 @@ class MapVis {
         this.spendingData.forEach(d => {
             let stateName = d.state;
             let amount = vis.stateInfo[stateName][selectedMeasure];
-            vis.stateInfo[stateName].color = vis.colorScale(amount);
+            if (vis.stateInfo[stateName].studentCount === 0 && selectedMeasure === "elo") {
+                vis.stateInfo[stateName].color = "#888888";
+            }
+            else {
+                vis.stateInfo[stateName].color = vis.colorScale(amount);
+            }
         })
 
         vis.updateVis()
     }
-
 
 
     updateVis() {

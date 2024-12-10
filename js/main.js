@@ -42,6 +42,7 @@ function initMainPage(dataArray) {
     eloChange = new EloChange("eloChange", tournamentData);
     performanceSimulator = new PerformanceSimulator("performanceSimulator", probsData);
     mapVis = new MapVis('mapDiv', tournamentData, studentsPerStateData, censusData, geoData);
+    statePopulation = new StatePopulation("statePopulation", tournamentData, studentsPerStateData);
 
     // Setup slider for filtering visualizations
     setupSlider();
@@ -81,5 +82,10 @@ function updateMap(selectedCategory) {
     mapVis.wrangleData();
 }
 
+function togglePublicPrivate() {
+    statePopulation.wrangleData();
+}
+
 // Attach odds to button click
 d3.select("#performanceSimulatorButton").on('click', simulateOdds);
+d3.select("#stateToggle").on('change', togglePublicPrivate);
