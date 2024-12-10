@@ -6,11 +6,14 @@
 class MapVis {
 
     // constructor method to initialize Timeline object
-    constructor(parentElement, usaData, geoData) {
+    constructor(parentElement, tournamentData, spendingData, censusData, geoData) {
         this.parentElement = parentElement;
-        this.usaData = usaData;
+        this.tournamentData = tournamentData;
+        this.spendingData = spendingData;
+        this.censusData = censusData;
         this.geoData = geoData;
         this.displayData = [];
+        this.selectedCategory = "studentCount";
 
         // parse date method
         this.parseDate = d3.timeParse("%m/%d/%Y");
@@ -25,7 +28,7 @@ class MapVis {
         vis.margin = {top: 20, right: 20, bottom: 20, left: 20};
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
-        
+
         // init drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
             .attr("width", vis.width)
@@ -38,7 +41,7 @@ class MapVis {
             .attr('id', 'map-title')
             .append('text')
             //.text('Title for Map')
-            .attr('transform', `translate(${vis.width / 2}, 20)`)
+            .attr('transform', `translate(${vis.width / 2}, 0)`)
             .attr('text-anchor', 'middle');
 
         // vis.projection = d3.geoAlbersUsa() // d3.geoStereographic()
@@ -47,14 +50,14 @@ class MapVis {
 
         vis.projection = d3.pr
 
-        vis.viewpoint = {'width': 975, 'height': 610};
+        vis.viewpoint = {'width': 1200, 'height': 610};
         vis.zoom = vis.width / vis.viewpoint.width;
 
 
         // adjust map position
         vis.map = vis.svg.append("g") // group will contain all state paths
             .attr("id", "statesmap")
-            .attr('transform', `scale(${vis.zoom} ${vis.zoom})`);
+            .attr('transform', `translate(100,0), scale(${vis.zoom} ${vis.zoom})`);
 
         vis.path = d3.geoPath()
             .projection(vis.projection)
@@ -70,14 +73,10 @@ class MapVis {
             .attr("stroke", "black")
             .attr("fill", "white")
 
-        this.colors = ['#fddbc7', '#f4a582', '#d6604d', '#b2182b']
-
         vis.tooltip = d3.select("body").append('div')
             .attr('class', "tooltip")
             .attr('id', 'pieTooltip')
 
-        vis.colorScale = d3.scaleSequential(d3.interpolateBlues)
-            .domain([0, 3]);
 
         this.wrangleData();
     }
@@ -89,19 +88,59 @@ class MapVis {
         // init final data structure in which both data sets will be merged into
         vis.stateInfo = {}
 
+        let selectedMeasure = vis.selectedCategory;
+
         // merge
-        this.usaData.forEach(d => {
+        vis.spendingData.forEach(d => {
 
             let stateName = d.state;
 
-            let population = Math.random() * 4;
+            let spending = d["PerPupilSpendingPublicSpendingPerK-12Student"];
+            let funding = d["PerPupilSpendingPublicFundingPerK-12Student"];
 
             vis.stateInfo[stateName] = {
-                population: population,
-                color: vis.colorScale(population),
+                spending: ++spending,
+                funding: ++funding,
+                studentCount: 0,
             }
-
         })
+
+        let nameConverter = new NameConverter();
+
+        vis.tournamentData.forEach(d => {
+            let stateName = nameConverter.getFullName(d.State);
+            if (stateName !== '') {
+                vis.stateInfo[stateName].studentCount += 1;
+            }
+        })
+
+        vis.censusData.forEach(d => {
+            let stateName = d.state;
+            let population = parseInt(d["2020"]);
+
+            if (stateName in vis.stateInfo) {
+                vis.stateInfo[stateName] = {
+                    ...vis.stateInfo[stateName],
+                    studentCountPerCapita: vis.stateInfo[stateName].studentCount / population,
+                    population: population,
+                }
+            }
+        });
+
+        var maxvalue = d3.max(d3.map(Object.values(vis.stateInfo), d => d[selectedMeasure]));
+        var minvalue = d3.min(d3.map(Object.values(vis.stateInfo), d => d[selectedMeasure]));
+
+        vis.colorScale = d3.scaleSequential()
+            .domain([minvalue, maxvalue])
+            .interpolator(d3.interpolatePuRd);
+
+        this.spendingData.forEach(d => {
+            let stateName = d.state;
+            let amount = vis.stateInfo[stateName][selectedMeasure];
+            vis.stateInfo[stateName].color = vis.colorScale(amount);
+        })
+
+        console.log(vis.stateInfo);
 
         vis.updateVis()
 
@@ -121,7 +160,7 @@ class MapVis {
                 d3.select(this)
                     .attr('stroke-width', '2px')
                     .attr('stroke', 'black')
-                    .attr('fill', 'rgba(200,0,0,0.62)')
+                    .attr('fill', 'rgba(200,0,80)')
 
                 vis.tooltip
                     .style("opacity", 1)
@@ -129,8 +168,11 @@ class MapVis {
                     .style("top", event.pageY + "px")
                     .html(`
      <div style="border: thin solid grey; border-radius: 5px; background: lightgrey; padding: 20px">
-         <h3>${d.properties.name}<h3>
-         <h4> Population: ${stateInfo.population}</h4>                         
+         <h2>${d.properties.name}<h2>
+         <h4> Debaters: ${stateInfo.studentCount}</h4>
+         <h4> Debaters Per Million People: ${(stateInfo.studentCountPerCapita * 1000000).toFixed()}</h4>                     
+         <h4> Spending Per K-12 Student: ${stateInfo.spending}</h4>    
+         <h4> Funding Per K-12 Student: ${stateInfo.funding}</h4>                         
      </div>`);
 
             })

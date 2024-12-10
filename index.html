@@ -283,7 +283,14 @@
         <div class="section7">
             <h2>Why is this Happening?</h2>
             <h2>There is a gap in competitive performance because of the unequal amount of resources that are offered to private school students.</h2>
-            <div id="mapDiv" style="height: 100%; width:100%; border: thin solid grey; border-radius: 5px; background: rgba(64,64,64,0.4);"></div>
+            <h2>Click on an measurement to see where debaters come from, and where resource opportunities are greatest.</h2>
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-secondary mapButton" onclick="updateMap('studentCount')">Number of Debaters</button>
+                <button type="button" class="btn btn-secondary mapButton" onclick="updateMap('studentCountPerCapita')">Debaters Per Capita</button>
+                <button type="button" class="btn btn-secondary mapButton" onclick="updateMap('spending')">Spending Per Student</button>
+                <button type="button" class="btn btn-secondary mapButton" onclick="updateMap('funding')">Funding Per Student</button>
+            </div>
+            <div id="mapDiv" style="height: 90%; width:90%;" class="vis"></div>
         </div>
     </div>
     <div class="col-2"></div>
