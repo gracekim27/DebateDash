@@ -75,7 +75,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 24px;
+    font-size: 2vh;
     font-weight: bold;
 }
 
@@ -88,7 +88,7 @@
 }
 
 .elo-number {
-    font-size: 48px;
+    font-size: 4vh;
     font-weight: bold;
 }
 
@@ -237,7 +237,7 @@ h2{
     text-align: center;
     color: black;
     font-style: normal;
-    font-size: 1.2em;
+    font-size: 2.5vh;
     font-weight: 200;
 }
 
@@ -271,12 +271,13 @@ h5{
 h6{
     color: black;
     font-weight: bold;
+    font-size: 2vh;
     font-family: "Oswald", sans-serif;
 }
 
 p{
     font-family: "Oswald", sans-serif;
-    font-size: 20px;
+    font-size: 2.1vh;
     line-height: 1.6;
     color: black;
 }
