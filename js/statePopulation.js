@@ -138,45 +138,57 @@ class StatePopulation {
         let xspace = 120;
         let yspace = 120;
 
-        let radius = function(d) {return Math.sqrt(d.studentCount) * 6}
+        let radius = function(d) { return Math.sqrt(d.studentCount) * 6; }
 
-        const circles = vis.svg.selectAll(".circle").data(vis.displayData);
+
+        const circles = vis.svg.selectAll(".circle").data(vis.displayData, d => d.state);
 
         const enterCircles = circles.enter()
             .append("circle")
-            .attr("cx", function(d, i) { return (i % circlesPerRow) * xspace + margin; })
-            .attr("cy", function(d, i) { return Math.floor(i / circlesPerRow) * yspace + margin; })
-            .attr("r", radius)
+            .attr("class", "circle")
+            .attr("cx", (d, i) => (i % circlesPerRow) * xspace + margin)
+            .attr("cy", (d, i) => Math.floor(i / circlesPerRow) * yspace + margin)
+            .attr("r", 0) // Start with radius 0 for a smooth transition
             .attr("stroke-width", 2)
             .attr("stroke", "black")
-            .attr("fill", function(d, i) { return d.color; });
-
-        enterCircles.transition()
-            .duration(1000)
+            .attr("fill", d => d.color);
 
         circles.merge(enterCircles)
             .transition()
             .duration(1000)
-            .attr("cx", function(d, i) { return (i % circlesPerRow) * xspace + margin; })
-            .attr("cy", function(d, i) { return Math.floor(i / circlesPerRow) * yspace + margin; })
+            .attr("cx", (d, i) => (i % circlesPerRow) * xspace + margin)
+            .attr("cy", (d, i) => Math.floor(i / circlesPerRow) * yspace + margin)
             .attr("r", radius)
-            .attr("stroke-width", 2)
-            .attr("stroke", "black")
-            .attr("fill", function(d, i) { return d.color; });
+            .attr("fill", d => d.color);
 
-        circles.exit().remove();
+        // EXIT
+        circles.exit()
+            .transition()
+            .duration(500)
+            .attr("r", 0) // Smoothly shrink to 0 radius before removing
+            .remove();
 
-        vis.labels.data(vis.displayData)
-            .enter()
+        const labels = vis.svg.selectAll(".label").data(vis.displayData, d => d.state);
+
+        const enterLabels = labels.enter()
             .append("text")
-            .attr("x", function(d, i) {return (i % circlesPerRow) * xspace + margin})
-            .attr("y", function(d, i) {return Math.floor(i / circlesPerRow) * yspace + margin - radius(d) - 10})
-            .text(function(d, i) {return d.state})
+            .attr("class", "label")
+            .attr("x", (d, i) => (i % circlesPerRow) * xspace + margin)
+            .attr("y", (d, i) => Math.floor(i / circlesPerRow) * yspace + margin - radius(d) - 10)
+            .text(d => d.state)
             .attr("text-anchor", "middle")
             .attr("font-family", "Oswald")
             .attr("font-size", "14px")
-            .attr("fill", "white")
+            .attr("fill", "white");
 
-        vis.labels.exit().remove()
+        labels.merge(enterLabels)
+            .transition()
+            .duration(1000)
+            .attr("x", (d, i) => (i % circlesPerRow) * xspace + margin)
+            .attr("y", (d, i) => Math.floor(i / circlesPerRow) * yspace + margin - radius(d) - 10)
+            .text(d => d.state);
+
+        // EXIT
+        labels.exit().remove();
     }
 }
