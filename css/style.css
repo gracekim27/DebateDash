@@ -237,8 +237,9 @@ h2{
     text-align: center;
     color: black;
     font-style: normal;
-    font-size: 2.5vh;
-    font-weight: 200;
+    font-size: 4vh;
+    font-weight: 500;
+    font-family: "Oswald", system-ui;
 }
 
 
@@ -246,7 +247,7 @@ h3{
     text-align: center;
     color: black;
     font-family: "Oswald", sans-serif;
-    font-size: 0.8em;
+    font-size: 3vh;
     font-weight: normal;
 }
 
@@ -281,6 +282,16 @@ p{
     line-height: 1.6;
     color: black;
 }
+
+
+.numAverage{
+    color: white;
+    font-weight: bold;
+    font-family: "Oswald", sans-serif;
+    font-size: 5vh;
+    -webkit-text-stroke: 2px black;
+}
+
 
 li{
     color: black;
@@ -452,11 +463,12 @@ hr {
 /* Tooltip */
 .tooltip {
     position: absolute;
-    background: white;
+    background: #EDE0D5;
     border: 1px solid black;
     border-radius: 5px;
     padding: 10px;
     pointer-events: none;
-    font-size: 12px;
+    font-size: 2vh;
+    font-family: "Oswald", sans-serif;
     z-index: 10;
 }
