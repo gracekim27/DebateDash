@@ -44,21 +44,21 @@ class MapVis {
             .attr('transform', `translate(${vis.width / 2}, 0)`)
             .attr('text-anchor', 'middle');
 
-        vis.textTitle = vis.svg.append('text')
-            .attr("x", vis.width - 100)
-            .attr("y", 30)
-            .style("font-size", "20px")
-            .style("font-family", "Oswald")
-            .attr("text-anchor", "middle")
-            .text("Public School Debaters")
-
-        vis.textDescription = vis.svg.append('text')
-            .attr("x", vis.width - 100)
-            .attr("y", 60)
-            .style("font-size", "14px")
-            .style("font-family", "Oswald")
-            .attr("text-anchor", "middle")
-            .text("Public School Debaters")
+        // vis.textTitle = vis.svg.append('text')
+        //     .attr("x", vis.width - 100)
+        //     .attr("y", 30)
+        //     .style("font-size", "20px")
+        //     .style("font-family", "Oswald")
+        //     .attr("text-anchor", "middle")
+        //     .text("Public School Debaters")
+        //
+        // vis.textDescription = vis.svg.append('text')
+        //     .attr("x", vis.width - 100)
+        //     .attr("y", 60)
+        //     .style("font-size", "14px")
+        //     .style("font-family", "Oswald")
+        //     .attr("text-anchor", "middle")
+        //     .text("Public School Debaters")
 
         vis.categoryToTitle = {
             studentCount: "Public School Debaters",
@@ -68,10 +68,10 @@ class MapVis {
         }
 
         vis.categoryToDescription = {
-            studentCount: "Public School Debaters",
-            studentCountPerCapita: "Debaters Per Capita",
-            spending: "Spending Per Student",
-            elo: "Average Elo"
+            studentCount: "Debaters come from across the country. California, the most populous state, is also the most represented state. However, since many of the more populous states have more debaters, it is difficult to see which states send the greatest proportion of debaters.",
+            studentCountPerCapita: "When we take the populations of each state into account, Iowa is the state that sends the most debaters per capita.",
+            spending: "The state that spends the most per student is New York. Contrasting with the previous map, we can actually see that the states that send the most public school debaters are not necessarily the ones with the highest public school funding.",
+            elo: "Higher Elo scores seem to correlate with higher spending. California, Washington, and the Northeast have higher ELOs than the rest of the country."
         }
 
         // vis.projection = d3.geoAlbersUsa() // d3.geoStereographic()
@@ -80,7 +80,7 @@ class MapVis {
 
         vis.projection = d3.pr
 
-        vis.viewpoint = {'width': 1400, 'height': 610};
+        vis.viewpoint = {'width': 1100, 'height': 610};
         vis.zoom = vis.width / vis.viewpoint.width;
 
 
@@ -156,16 +156,20 @@ class MapVis {
             }
         });
 
+
         vis.censusData.forEach(d => {
             let stateName = d.state;
             let population = parseInt(d["2020"]);
 
             if (stateName in vis.stateInfo) {
+
+                var newElo = vis.stateInfo[stateName].elo / vis.stateInfo[stateName].studentCount;
+                if (Number.isNaN(newElo)) {newElo = 0}
                 vis.stateInfo[stateName] = {
                     ...vis.stateInfo[stateName],
                     studentCountPerCapita: vis.stateInfo[stateName].studentCount / population,
                     population: population,
-                    elo: vis.stateInfo[stateName].elo / population
+                    elo: newElo,
                 }
             }
         });
@@ -173,9 +177,16 @@ class MapVis {
         var maxvalue = d3.max(d3.map(Object.values(vis.stateInfo), d => d[selectedMeasure]));
         var minvalue = d3.min(d3.map(Object.values(vis.stateInfo), d => d[selectedMeasure]));
 
+        var colorSchemes = {
+            studentCount: d3.interpolatePuRd,
+            studentCountPerCapita: d3.interpolatePuRd,
+            spending: d3.interpolateBuGn,
+            elo: d3.interpolatePuBuGn
+        }
+
         vis.colorScale = d3.scaleSequential()
             .domain([minvalue, maxvalue])
-            .interpolator(d3.interpolatePuRd);
+            .interpolator(colorSchemes[selectedMeasure]);
 
         this.spendingData.forEach(d => {
             let stateName = d.state;
@@ -193,7 +204,8 @@ class MapVis {
 
         // reset tbody
 
-        vis.textTitle.text(vis.categoryToTitle[vis.selectedCategory]);
+        d3.select("#mapTitle").text(vis.categoryToTitle[vis.selectedCategory]);
+        d3.select("#mapDescription").text(vis.categoryToDescription[vis.selectedCategory]);
 
         vis.states
             .attr("fill", d => vis.stateInfo[d.properties.name].color)
@@ -215,8 +227,8 @@ class MapVis {
          <h2>${d.properties.name}<h2>
          <h4> Debaters: ${stateInfo.studentCount}</h4>
          <h4> Debaters Per Million People: ${(stateInfo.studentCountPerCapita * 1000000).toFixed()}</h4>                     
-         <h4> Spending Per K-12 Student: ${stateInfo.spending}</h4>    
-         <h4> Elo: ${stateInfo.elo.toFixed()}</h4>                         
+         <h4> Spending Per K-12 Student: $${stateInfo.spending}</h4>    
+         <h4> Elo: ${(stateInfo.elo.toFixed() === "0") ? "N/A" : stateInfo.elo.toFixed()}</h4>                         
      </div>`);
 
             })

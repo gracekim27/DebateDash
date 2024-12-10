@@ -327,7 +327,16 @@
                 <button type="button" class="btn btn-secondary mapButton" onclick="updateMap('spending')">Public Spending Per Student</button>
                 <button type="button" class="btn btn-secondary mapButton" onclick="updateMap('elo')">Average Elo</button>
             </div>
-            <div id="mapDiv" style="height: 75%; width:70%;"></div>
+            <div class="row" style="height: 100%; width:100%;">
+                <div class="col-8">
+                    <div id="mapDiv" style="height: 100%; width:100%;"></div>
+                </div>
+                <div class="col-3">
+                    <p id="mapTitle" style="font-size: 20px; font-family: 'Oswald'; text-align: center;">map title</p>
+                    <h2 id="mapDescription" style="font-size: 14px; text-align: center;">map description</h2>
+                </div>
+                <div class="col-1"></div>
+            </div>
         </div>
     </div>
     <div class="col-1"></div>
