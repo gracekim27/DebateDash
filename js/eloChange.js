@@ -179,7 +179,7 @@ class EloChange {
             .data(vis.competitorData, d => d.competitor);
 
         // ENTER: Add dot groups for new competitors
-        const dotEnter = dots.enter()
+        dots.enter()
             .append("g")
             .attr("class", "dot-group")
             .selectAll(".dot")

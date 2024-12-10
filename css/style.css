@@ -278,7 +278,7 @@ h6{
 
 p{
     font-family: "Oswald", sans-serif;
-    font-size: 2.1vh;
+    font-size: 2.2vh;
     line-height: 1.6;
     color: black;
 }
@@ -450,28 +450,28 @@ hr {
     position: relative;
     height: 90vh;
     width: 100%;
-    background-color: #FE1D87; /* Base color (pink) */
+    background-color: #9989B0; /* Base color (pink) */
     border: solid 3px black;
     margin: 2em auto 2em auto;
     justify-content: center; /* Horizontal centering */
     padding: 1em;
     background: radial-gradient(circle, rgba(0, 0, 0, 0.1) 30%, rgba(0, 0, 0, 0.2) 10%);
     background-size: 5px 5px; /* Adjust dot size and spacing */
-    background-color: #FE1D87; /* Base color (pink) */
+    background-color: #9989B0; /* Base color (pink) */
 }
 
 .filler-blue{
     position: relative;
     height: 90vh;
     width: 100%;
-    background-color: #74C7BD;
+    background-color: #4B1D3F;
     border: solid 3px black;
     margin: 2em auto 2em auto;
     justify-content: center; /* Horizontal centering */
     padding: 2em;
     background: radial-gradient(circle, rgba(0, 0, 0, 0.1) 30%, rgba(0, 0, 0, 0) 00%);
     background-size: 5px 5px; /* Adjust dot size and spacing */
-    background-color: #74C7BD;
+    background-color: #4B1D3F;
 }
 
 .container_welcome{
@@ -499,4 +499,13 @@ hr {
     font-size: 2vh;
     font-family: "Oswald", sans-serif;
     z-index: 10;
+}
+
+
+li{
+    font-family: "Oswald", sans-serif;
+}
+
+a{
+    color: white;
 }

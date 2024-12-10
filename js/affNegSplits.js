@@ -11,9 +11,9 @@ class AffNegSplits {
         let vis = this;
 
         // Define margins and dimensions
-        vis.margin = { top: 60, right: 150, bottom: 120, left: 50 }; // Increased right margin for the text area
-        vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 2 + 10) - vis.margin.left - vis.margin.right;
-        vis.height = 500;
+        vis.margin = { top: 60, right: 170, bottom: 50, left: 40 }; // Increased right margin for the text area
+        vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width / 2 + 100) - vis.margin.left - vis.margin.right;
+        vis.height = 400;
 
         // SVG drawing area
         vis.svg = d3.select(`#${vis.parentElement}`)
@@ -36,10 +36,10 @@ class AffNegSplits {
         // Add a rectangle for motion details background
         vis.motionDetails
             .append("rect")
-            .attr("x", 90)
-            .attr("y", -20)
+            .attr("x", 100)
+            .attr("y", -40)
             .attr("width", 208)
-            .attr("height", 200)
+            .attr("height", 150)
             .attr("rx", 10) // Rounded corners
             .style("fill", "#333") // Dark background
             .style("stroke", "black")
@@ -48,8 +48,8 @@ class AffNegSplits {
         vis.motionDetails
             .append("text")
             .attr("class", "motion-title")
-            .attr("x", 100)
-            .attr("y", 10)
+            .attr("x", 110)
+            .attr("y", -15)
             .attr("font-size", "20px")
             .style("fill", "white")
             .style("font-family", "Oswald")
@@ -58,13 +58,53 @@ class AffNegSplits {
         vis.motionDetails
             .append("text")
             .attr("class", "motion-content")
-            .attr("x", 100)
-            .attr("y", 40)
+            .attr("x", 115)
+            .attr("y", -25)
             .attr("font-size", "15px")
             .style("fill", "white")
             .style("font-weight", "200")
             .style("line-height", 2)
             .style("font-family", "Oswald");
+
+        // Add legend
+        let legendData = [
+            { label: "Aff Win %", shape: "circle", color: "#439745" },
+            { label: "Neg Win %", shape: "circle", color: "#DB3A3A" }
+        ];
+
+        // Create a legend group
+        const legend = vis.svg.append("g")
+            .attr("class", "legend")
+            .attr("transform", `translate(${vis.width - vis.margin.right - 220}, ${vis.height - vis.margin.bottom + 60})`); // Adjust legend position
+
+        // Add legend items
+        legend.selectAll(".legend-item")
+            .data(legendData)
+            .enter()
+            .append("g")
+            .attr("class", "legend-item")
+            .attr("transform", (d, i) => `translate(0, ${i * 30})`) // Adjust vertical spacing
+            .each(function(d) {
+                const legendItem = d3.select(this);
+
+                // Draw the shape
+                legendItem.append("circle")
+                    .attr("cx", 0)
+                    .attr("cy", 20)
+                    .attr("r", 9) // Scaled for better visibility
+                    .attr("fill", d.color)
+                    .attr("stroke", "black")
+                    .attr("stroke-width", 2);
+
+                // Add the label
+                legendItem.append("text")
+                    .attr("x", 20) // Space between shape and text
+                    .attr("y", 25) // Vertical alignment with circle
+                    .style("font-size", "14px")
+                    .style("font-family", "Oswald")
+                    .style("fill", "black")
+                    .text(d.label);
+            });
 
         vis.wrangleData();
     }
@@ -241,10 +281,10 @@ class AffNegSplits {
         const lineHeight = 20; // Line height in pixels
         const maxWidth = 180; // Max width for each line
         let line = [];
-        let y = 30; // Starting y-position
+        let y = 20; // Starting y-position
         let tspan = vis.motionDetails.select(".motion-content")
             .append("tspan")
-            .attr("x", 100)
+            .attr("x", 115)
             .attr("y", y);
 
         words.forEach((word) => {
@@ -257,7 +297,7 @@ class AffNegSplits {
                 y += lineHeight; // Move to the next line
                 tspan = vis.motionDetails.select(".motion-content")
                     .append("tspan")
-                    .attr("x", 100)
+                    .attr("x", 115)
                     .attr("y", y)
                     .text(word);
             }
