@@ -95,8 +95,8 @@ class MapVis {
 
             let stateName = d.state;
 
-            let spending = d["PerPupilSpendingPublicSpendingPerK-12Student"];
-            let funding = d["PerPupilSpendingPublicFundingPerK-12Student"];
+            let spending = d["Spending"];
+            let funding =  d["PerPupilSpendingPublicFundingPerK-12Student"];
 
             vis.stateInfo[stateName] = {
                 spending: ++spending,
@@ -139,8 +139,6 @@ class MapVis {
             let amount = vis.stateInfo[stateName][selectedMeasure];
             vis.stateInfo[stateName].color = vis.colorScale(amount);
         })
-
-        console.log(vis.stateInfo);
 
         vis.updateVis()
 
