@@ -20,15 +20,6 @@
     animation-iteration-count: infinite;
 }
 
-.shakeRotated {
-    /* Start the shake animation and make the animation last for 0.5 seconds */
-    animation: shakeRotated 0.5s;
-
-    /* When the animation is finished, start again */
-    animation-iteration-count: infinite;
-}
-
-
 @keyframes shake {
     0% { transform: translate(1px, 1px) rotate(0deg); }
     10% { transform: translate(-1px, -2px) rotate(-1deg); }
@@ -427,7 +418,7 @@ hr {
 /* Sections */
 
 
-.section1, .section3, .section5, .section7, .section9, .section11{
+.section1, .section3, .section5, .section7, .section9 {
     position: relative;
     height: 90vh;
     width: 100%;
@@ -517,13 +508,4 @@ li{
 
 a{
     color: white;
-}
-
-
-.quoteBubble{
-    background: #EDE0D5;
-    padding: 1.5vh;
-    opacity: 0.7;
-    border-radius: 15px;
-    margin: 1vh;
 }

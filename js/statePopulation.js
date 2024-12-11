@@ -11,7 +11,7 @@ class StatePopulation {
         this.tournamentData = tournamentData;
         this.spendingData = spendingData;
         this.displayData = [];
-        this.selectedCategory = "spending";
+        this.selectedCategory = "Total";
 
         this.initVis()
     }
@@ -34,6 +34,10 @@ class StatePopulation {
         vis.circles = vis.svg.selectAll("circle")
         vis.labels = vis.svg.selectAll("text")
 
+        vis.tooltip = d3.select("body").append('div')
+            .attr('class', "tooltip")
+            .attr('id', 'pieTooltip')
+
 
         this.wrangleData();
     }
@@ -46,7 +50,7 @@ class StatePopulation {
 
         vis.stateInfo = {};
 
-        let selectedMeasure = vis.selectedCategory;
+        let selectedMeasure = "spending";
 
         // Merge spending data
         vis.spendingData.forEach(d => {
@@ -66,11 +70,12 @@ class StatePopulation {
 
         let nameConverter = new NameConverter();
 
-        let schoolType = (d3.select("#stateToggle").property('checked')) ? "Private" : "Public";
+        //let schoolType = (d3.select("#stateToggle").property('checked')) ? "Private" : "Public";
+        let schoolType = vis.selectedCategory;
 
         // Filter tournament data for the selected tournament and public schools
         let filteredTournamentData = vis.tournamentData.filter(d =>
-            d.Tournament === selectedTournament && d['Private/Public'] === schoolType
+            d.Tournament === selectedTournament && ((d['Private/Public'] === schoolType) || (schoolType === "Total"))
         );
 
         filteredTournamentData.forEach(d => {
@@ -99,15 +104,9 @@ class StatePopulation {
         var maxvalue = d3.max(d3.map(Object.values(vis.stateInfo), d => d[selectedMeasure]));
         var minvalue = d3.min(d3.map(Object.values(vis.stateInfo), d => d[selectedMeasure]));
 
-        var colorSchemes = {
-            studentCount: d3.interpolatePuRd,
-            spending: d3.interpolateBuGn,
-            elo: d3.interpolatePuBuGn
-        }
-
         vis.colorScale = d3.scaleSequential()
             .domain([minvalue, maxvalue])
-            .interpolator(colorSchemes[selectedMeasure]);
+            .interpolator(d3.interpolatePuRd);
 
         this.spendingData.forEach(d => {
             let stateName = d.state;
@@ -132,13 +131,13 @@ class StatePopulation {
     updateVis() {
         let vis = this;
 
-        let circlesPerRow = 6;
+        let circlesPerRow = 8;
 
         let margin = 90;
         let xspace = 120;
-        let yspace = 120;
+        let yspace = 65;
 
-        let radius = function(d) { return Math.sqrt(d.studentCount) * 6; }
+        let radius = function(d) { return Math.sqrt(d.studentCount) * 3; }
 
 
         const circles = vis.svg.selectAll(".circle").data(vis.displayData, d => d.state);
@@ -151,7 +150,30 @@ class StatePopulation {
             .attr("r", 0) // Start with radius 0 for a smooth transition
             .attr("stroke-width", 2)
             .attr("stroke", "black")
-            .attr("fill", d => d.color);
+            .attr("fill", d => d.color)
+
+            .on('mouseover', function(event, d){
+
+            vis.tooltip
+                .style("opacity", 1)
+                .style("left", event.pageX + 20 + "px")
+                .style("top", event.pageY + "px")
+                .html(`
+     <div style="border: thin solid grey; border-radius: 5px; background: lightgrey; padding: 20px">
+         <h2>${d.state}<h2>
+         <h4> Debaters: ${d.studentCount}</h4>                  
+         <h4> Spending Per K-12 Student: $${d.spending}</h4>                          
+     </div>`);
+
+        })
+            .on('mouseout', function(event, d){
+
+                vis.tooltip
+                    .style("opacity", 0)
+                    .style("left", 0)
+                    .style("top", 0)
+                    .html(``);
+            })
 
         circles.merge(enterCircles)
             .transition()
@@ -187,6 +209,21 @@ class StatePopulation {
             .attr("x", (d, i) => (i % circlesPerRow) * xspace + margin)
             .attr("y", (d, i) => Math.floor(i / circlesPerRow) * yspace + margin - radius(d) - 10)
             .text(d => d.state);
+
+        d3.selectAll(".annotation").remove()
+
+        if (vis.selectedCategory === "Private") {
+            console.log("HERE")
+            vis.svg.append("text")
+                .attr("class", "annotation")
+                .attr("x", vis.width/2)
+                .attr("y", 250)
+                .text("Students from a state like New York, with high public school funding, are more likely to come from public school than private school.")
+                .attr("font-size", "14px")
+                .attr("text-anchor", "middle")
+                .attr("font-family", "Oswald")
+        }
+
 
         // EXIT
         labels.exit().remove();
