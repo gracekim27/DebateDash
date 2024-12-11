@@ -223,7 +223,8 @@
     <div class="col-10">
         <div class="section4">
             <div class="row">
-                <h2 class="bangers-h2">Choose your traits and see your chances!</h2>
+                <h2 class="bangers-h2">Debate Duel</h2>
+                <h4>Choose your traits and see your chance of winning! Defaults are female and private.</h4>
             </div>
             <div class="select-container vis">
                 <p><b>You: </b></p>
@@ -290,6 +291,7 @@
     <div class="col-10">
         <div class="section5">
             <h2 class="bangers-h2">Aff/Neg Splits at Tournaments</h2>
+            <h4>Click on monthly motions to see motion details.</h4>
             <div id="affNegSplits" class="vis"></div>
             <h3 style="position: absolute; left: 50vw; top: 21vw; padding-right: 6vw;">This data shows what is called the Neg-side bias. In Lincoln Douglas Debate, the Neg side has 1 extra minute of speech time, leading to a slight bias to the Neg side.</h3>
             <h3 style="position: absolute; left: 50vw; top: 29vw; padding-right: 6vw;">Despite the bias, the Aff side still wins about half of the rounds. Note, that the side that you debate is random, so even if you are given the harder side once, you will likely be flipped in the next round.</h3>
@@ -305,7 +307,7 @@
         <div class="section6">
             <div class="minTournament">
                 <h2 class="bangers-h2">Tournament Tally </h2>
-                <p>Adjust the slider to filter competitors based on the minimum number of tournaments attended.</p>
+                <h4>Adjust the slider to filter competitors based on the minimum number of tournaments attended.</h4>
                 <input type="range" id="mySlider" min="1" max="7" value="5" class="form-range">
                 <h5>Minimum Tournaments: <span id="sliderValue">5</span></h5>
             </div>
@@ -344,7 +346,7 @@
     <div class="col-9">
         <div class="section7">
             <h2 class="bangers-h2">Where do students come from?</h2>
-            <h3>Choose a subset of students to see where they come from. States with darker colors have more funding per student at public schools.</h3>
+            <h4>Choose a subset of students to see where they come from. States with darker colors have more funding per student at public schools.</h4>
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="button" class="btn populationButton" onclick="updatePopulation('Total')">All Students</button>
                 <button type="button" class="btn populationButton" onclick="updatePopulation('Public')">Public</button>
@@ -365,8 +367,8 @@
     <div class="col-9">
         <div class="section8">
             <h2 class="bangers-h2">Why Is This Happening? </h2>
-            <h3>There is a gap in competitive performance because of the unequal amount of resources that are offered to private school students.</h3>
-            <h3>Click on an measurement to see where debaters come from, and where resource opportunities are greatest.</h3>
+            <p style="text-align: center">There is a gap in competitive performance because of the unequal amount of resources that are offered to private school students.</p>
+            <h4>Click on an measurement to see where debaters come from, and where resource opportunities are greatest.</h4>
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="button" class="btn mapButton" onclick="updateMap('studentCount')">Number of Public School Debaters</button>
                 <button type="button" class="btn mapButton" onclick="updateMap('studentCountPerCapita')">Public Debaters Per Capita</button>

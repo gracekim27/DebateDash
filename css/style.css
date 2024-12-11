@@ -532,8 +532,12 @@ a{
     justify-content: center;
 }
 .btn {
-    background-color: #ff69b4 !important;
+    background-color: #465691 !important;
+    font-family: "Oswald", sans-serif;
+    color: white;
 }
+
 .btn:hover {
-    background-color: #e23f93 !important;
+    background-color: #3E4E8A !important;
+    color: white;
 }
