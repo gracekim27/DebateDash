@@ -1,3 +1,5 @@
+# Debate Dash
+## By Liam Norman and Grace Kim
 ### How to Run Code
 * Download repository and run index.html
 OR
