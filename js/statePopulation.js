@@ -131,11 +131,11 @@ class StatePopulation {
     updateVis() {
         let vis = this;
 
-        let circlesPerRow = 8;
+        let circlesPerRow = 9;
 
         let margin = 90;
-        let xspace = 120;
-        let yspace = 65;
+        let xspace = 108;
+        let yspace = 90;
 
         let radius = function(d) { return Math.sqrt(d.studentCount) * 3; }
 
@@ -154,18 +154,18 @@ class StatePopulation {
 
             .on('mouseover', function(event, d){
 
-            vis.tooltip
-                .style("opacity", 1)
-                .style("left", event.pageX + 20 + "px")
-                .style("top", event.pageY + "px")
-                .html(`
+                vis.tooltip
+                    .style("opacity", 1)
+                    .style("left", event.pageX + 20 + "px")
+                    .style("top", event.pageY + "px")
+                    .html(`
      <div style="border: thin solid grey; border-radius: 5px; background: lightgrey; padding: 20px">
          <h2>${d.state}<h2>
          <h4> Debaters: ${d.studentCount}</h4>                  
          <h4> Spending Per K-12 Student: $${d.spending}</h4>                          
      </div>`);
 
-        })
+            })
             .on('mouseout', function(event, d){
 
                 vis.tooltip
