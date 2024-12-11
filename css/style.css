@@ -509,3 +509,18 @@ li{
 a{
     color: white;
 }
+
+.btn-group {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.btn {
+    background-color: #ff69b4 !important;
+}
+
+.btn:hover {
+    background-color: #e23f93 !important;
+}

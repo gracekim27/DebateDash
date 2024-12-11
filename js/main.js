@@ -82,10 +82,10 @@ function updateMap(selectedCategory) {
     mapVis.wrangleData();
 }
 
-function togglePublicPrivate() {
+function updatePopulation(selectedCategory) {
+    statePopulation.selectedCategory = selectedCategory;
     statePopulation.wrangleData();
 }
 
 // Attach odds to button click
 d3.select("#performanceSimulatorButton").on('click', simulateOdds);
-d3.select("#stateToggle").on('change', togglePublicPrivate);

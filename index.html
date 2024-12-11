@@ -331,21 +331,41 @@
 </div>
 
 
+<div class="row">
+    <div class="col-1">
+        <div class="filler-blue"></div>
+    </div>
+    <div class="col-9">
+        <div class="section7">
+            <h2 class="bangers-h2">Where do students come from?</h2>
+            <h3>Choose a subset of students to see where they come from. States with darker colors have more funding per student at public schools.</h3>
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn populationButton" onclick="updatePopulation('Total')">All Students</button>
+                <button type="button" class="btn populationButton" onclick="updatePopulation('Public')">Public</button>
+                <button type="button" class="btn populationButton" onclick="updatePopulation('Private')">Private</button>
+            </div>
+            <div id="statePopulation" style="height: 100%; width:100%;"></div>
+        </div>
+    </div>
+    <div class="col-2">
+        <div class="filler-blue"></div>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-2">
         <div class="filler-pink"></div>
     </div>
     <div class="col-9">
-        <div class="section7">
+        <div class="section8">
             <h2 class="bangers-h2">Why Is This Happening? </h2>
             <h3>There is a gap in competitive performance because of the unequal amount of resources that are offered to private school students.</h3>
             <h3>Click on an measurement to see where debaters come from, and where resource opportunities are greatest.</h3>
             <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-secondary mapButton" onclick="updateMap('studentCount')">Number of Public School Debaters</button>
-                <button type="button" class="btn btn-secondary mapButton" onclick="updateMap('studentCountPerCapita')">Public Debaters Per Capita</button>
-                <button type="button" class="btn btn-secondary mapButton" onclick="updateMap('spending')">Public Spending Per Student</button>
-                <button type="button" class="btn btn-secondary mapButton" onclick="updateMap('elo')">Average Elo</button>
+                <button type="button" class="btn mapButton" onclick="updateMap('studentCount')">Number of Public School Debaters</button>
+                <button type="button" class="btn mapButton" onclick="updateMap('studentCountPerCapita')">Public Debaters Per Capita</button>
+                <button type="button" class="btn mapButton" onclick="updateMap('spending')">Public Spending Per Student</button>
+                <button type="button" class="btn mapButton" onclick="updateMap('elo')">Average Elo</button>
             </div>
             <div class="row" style="height: 100%; width:100%;">
                 <div class="col-8">
@@ -365,27 +385,6 @@
         <div class="filler-pink"></div>
     </div>
 </div>
-
-<div class="row">
-    <div class="col-1">
-        <div class="filler-blue"></div>
-    </div>
-    <div class="col-9">
-        <div class="section8">
-            <h2>Where do students come from?</h2>
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="stateToggle">
-                <label class="form-check-label" for="stateToggle">Private</label>
-            </div>
-            <div id="statePopulation" style="height: 100%; width:100%;"></div>
-        </div>
-    </div>
-    <div class="col-2">
-        <div class="filler-blue"></div>
-    </div>
-</div>
-
-
 
 
 
