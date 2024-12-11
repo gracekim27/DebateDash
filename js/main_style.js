@@ -1,6 +1,6 @@
 const navigationDots = document.querySelectorAll('.navigation_dots li');
 const welcome = document.querySelector('.container_welcome');
-const sections = document.querySelectorAll('.section1, .section2, .section3, .section4, .section5, .section6, .section7, .section8, .section9, .section10');
+const sections = document.querySelectorAll('.section1, .section2, .section3, .section4, .section5, .section6, .section7, .section8, .section9, .section10, .section11');
 const totalHeight = document.documentElement.scrollHeight;
 
 // Reset the navigation dots on each scroll
