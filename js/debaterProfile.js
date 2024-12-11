@@ -146,7 +146,7 @@ class DebaterProfile {
 
             vis.rightHalf
                 .append("image")
-                .attr("xlink:href", "/img/maleFemale.png")
+                .attr("xlink:href", "./img/maleFemale.png")
                 .attr("x", 0)
                 .attr("y", 50)
                 .attr("width", vis.width / 2);
