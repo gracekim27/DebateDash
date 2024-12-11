@@ -427,7 +427,7 @@ hr {
 
 .section1, .section3, .section5, .section7, .section9 , .section11{
     position: relative;
-    height: 90vh;
+    height: 95vh;
     width: 100%;
     background-color: #74C7BD;
     border: solid 3px black;
@@ -441,7 +441,7 @@ hr {
 
 .section2, .section4, .section6, .section8, .section10 {
     position: relative;
-    height: 90vh;
+    height: 95vh;
     width: 100%;
     background-color: #FE1D87; /* Base color (pink) */
     border: solid 3px black;
@@ -455,7 +455,7 @@ hr {
 
 .filler-pink{
     position: relative;
-    height: 90vh;
+    height: 95vh;
     width: 100%;
     background-color: #9989B0; /* Base color (pink) */
     border: solid 3px black;
@@ -469,7 +469,7 @@ hr {
 
 .filler-blue{
     position: relative;
-    height: 90vh;
+    height: 95vh;
     width: 100%;
     background-color: #4B1D3F;
     border: solid 3px black;
@@ -483,7 +483,7 @@ hr {
 
 .container_welcome{
     position: relative;
-    height: 90vh;
+    height: 95vh;
     width: 80%;
     border: solid 3px black;
     background-color:#FE1D87;
